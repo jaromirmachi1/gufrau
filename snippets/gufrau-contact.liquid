@@ -1,0 +1,177 @@
+{% liquid
+  assign logo_image = section.settings.logo
+  assign text_color = section.settings.text_color | default: '#0B1F7A'
+  assign booking_label = section.settings.booking_label | default: 'Booking'
+  assign booking_email = section.settings.booking_email | default: 'booking@gufrau.com'
+  assign management_label = section.settings.management_label | default: 'Management'
+  assign management_email = section.settings.management_email | default: 'management@gufrau.com'
+%}
+
+<section
+  class="gufrau-contact"
+  style="--gufrau-contact-text: {{ text_color }};"
+  {{ section.shopify_attributes }}
+>
+  <a class="gufrau-contact__home" href="{{ routes.root_url }}">home</a>
+
+  <div class="gufrau-contact__content">
+    <div class="gufrau-contact__block">
+      <h1 class="gufrau-contact__label">{{ booking_label | escape }}</h1>
+      <a class="gufrau-contact__email" href="mailto:{{ booking_email | escape }}">
+        {{ booking_email | escape }}
+      </a>
+    </div>
+
+    <div class="gufrau-contact__block">
+      <h2 class="gufrau-contact__label">{{ management_label | escape }}</h2>
+      <a class="gufrau-contact__email" href="mailto:{{ management_email | escape }}">
+        {{ management_email | escape }}
+      </a>
+    </div>
+  </div>
+
+  <div class="gufrau-contact__logo" aria-hidden="true">
+    {%- if logo_image != blank -%}
+      {{
+        logo_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'gufrau-contact__logo-img',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          sizes: '100vw',
+          loading: 'eager',
+          alt: ''
+      }}
+    {%- else -%}
+      <img
+        class="gufrau-contact__logo-img"
+        src="{{ 'blueorange.png' | asset_url }}"
+        alt=""
+        width="2902"
+        height="732"
+        loading="eager"
+      >
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  body:has(.gufrau-contact) {
+    background: #ffffff;
+    color: var(--gufrau-contact-text, #0b1f7a);
+  }
+
+  body:has(.gufrau-contact) #header-group:empty,
+  body:has(.gufrau-contact) footer:has(.shopify-section-group-footer-group:empty) {
+    display: none;
+  }
+
+  body:has(.gufrau-contact) .content-for-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  body:has(.gufrau-contact) .content-for-layout > .shopify-section:has(.gufrau-contact) {
+    flex: 1;
+    display: flex;
+  }
+
+  .gufrau-contact {
+    --gufrau-contact-text: #0b1f7a;
+    --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    flex: 1;
+    width: 100%;
+    min-height: 100dvh;
+    background: #fff;
+    color: var(--gufrau-contact-text);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .gufrau-contact__home {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.75rem);
+    left: clamp(1rem, 3vw, 1.75rem);
+    z-index: 3;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: var(--gufrau-contact-text);
+    transition: opacity 180ms var(--gufrau-ease);
+  }
+
+  .gufrau-contact__home:hover {
+    opacity: 0.6;
+  }
+
+  .gufrau-contact__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.75rem, 4vh, 2.75rem);
+    padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 28vh;
+    max-width: 40rem;
+  }
+
+  .gufrau-contact__block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .gufrau-contact__label {
+    margin: 0;
+    font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .gufrau-contact__email {
+    color: inherit;
+    text-decoration: none;
+    font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    transition: opacity 180ms var(--gufrau-ease);
+  }
+
+  .gufrau-contact__email:hover {
+    opacity: 0.65;
+  }
+
+  .gufrau-contact__logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    pointer-events: none;
+  }
+
+  .gufrau-contact__logo-img {
+    transform: translateY(10%);
+    display: block;
+    width: 105%;
+    max-width: none;
+    height: auto;
+    margin: 0 0 0 -2.5%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .gufrau-contact__content {
+      padding-bottom: 24vh;
+    }
+  }
+{% endstylesheet %}
+

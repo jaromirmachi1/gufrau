@@ -1,0 +1,89 @@
+{% comment %}
+  Routes /pages/shop, /pages/shows, /pages/contact to GUFRAU layouts
+  even when the page still uses the default "page" template.
+{% endcomment %}
+
+{% liquid
+  assign handle = page.handle | downcase
+%}
+
+{% case handle %}
+  {% when 'shop' %}
+    {% render 'gufrau-shop' %}
+  {% when 'shows' %}
+    {% render 'gufrau-shows' %}
+  {% when 'contact' %}
+    {% render 'gufrau-contact' %}
+  {% else %}
+    <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+    <div class="section page-width-content color-{{ section.settings.color_scheme }}">
+      <div
+        class="spacing-style layout-panel-flex layout-panel-flex--column section-content-wrapper mobile-column"
+        style="
+          {% render 'layout-panel-style', settings: section.settings %}
+          {% render 'spacing-style', settings: section.settings %}
+        "
+      >
+        <h1 class="gufrau-page-fallback__title">{{ page.title | escape }}</h1>
+        <div class="rte">{{ page.content }}</div>
+      </div>
+    </div>
+{% endcase %}
+
+{% stylesheet %}
+  .gufrau-page-fallback__title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "GUFRAU page router",
+  "tag": "div",
+  "class": "gufrau-page-router",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Auto-loads Shop, Shows, or Contact when the page handle matches. Other pages show the normal title and content."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Fallback color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Fallback gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Fallback padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Fallback padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}
