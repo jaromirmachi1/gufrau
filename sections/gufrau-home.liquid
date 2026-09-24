@@ -214,19 +214,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0;
     text-decoration: none;
     animation: gufrau-btn-in 480ms var(--gufrau-ease) both;
     animation-delay: calc(80ms + var(--i) * 60ms);
   }
 
   .gufrau-home__icon-scene {
-    width: clamp(5rem, 10vw, 6.5rem);
-    height: clamp(5rem, 10vw, 6.5rem);
-    perspective: 720px;
-    perspective-origin: 50% 40%;
-    display: grid;
-    place-items: center;
+    display: none;
   }
 
   .gufrau-home__icon-spin {
