@@ -17,12 +17,16 @@
         --gufrau-btn-bg: #0000ff;
         --gufrau-btn-text: #ffffff;
         --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        --gufrau-blue: #0000ff;
+        --gufrau-blue-deep: #0000b8;
+        --gufrau-blue-side: #0010aa;
+        --gufrau-blue-top: #3355ff;
+        --gufrau-blue-bot: #000088;
         min-height: 100dvh;
         position: relative;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        overflow: visible;
         width: 100%;
         isolation: isolate;
       }
@@ -34,36 +38,173 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        gap: clamp(0.75rem, 2.2vw, 1.75rem);
+        gap: clamp(1.25rem, 4vw, 3rem);
         padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem);
         pointer-events: none;
         transform: translateY(-20%);
       }
-      .gufrau-home__nav .gufrau-home__btn {
+      .gufrau-home__item {
         pointer-events: auto;
-      }
-      .gufrau-home__btn {
-        display: inline-flex;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        min-height: 2.75rem;
-        padding: 0.7rem 1.55rem;
-        border-radius: 999px;
-        background: var(--gufrau-btn-bg);
-        color: var(--gufrau-btn-text);
-        font-size: clamp(0.95rem, 1.4vw, 1.125rem);
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        line-height: 1;
+        gap: 0.85rem;
         text-decoration: none;
-        text-transform: lowercase;
-        white-space: nowrap;
-        transition: transform 180ms var(--gufrau-ease), filter 180ms var(--gufrau-ease);
-        animation: gufrau-btn-in 420ms var(--gufrau-ease) both;
-        animation-delay: calc(80ms + var(--i, 0) * 50ms);
       }
-      .gufrau-home__btn:hover { filter: brightness(1.08); transform: scale(1.02); }
-      .gufrau-home__btn:active { transform: scale(0.97); }
+      .gufrau-home__icon-scene {
+        width: clamp(5rem, 10vw, 6.5rem);
+        height: clamp(5rem, 10vw, 6.5rem);
+        perspective: 720px;
+        perspective-origin: 50% 40%;
+        display: grid;
+        place-items: center;
+      }
+      .gufrau-home__icon-spin {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        transform-style: preserve-3d;
+        animation: gufrau-spin-3d 5.5s linear infinite;
+        filter: drop-shadow(0 14px 18px rgba(0,0,0,.22));
+      }
+      .gufrau-home__icon-spin--shop { animation-duration: 5.4s; animation-direction: reverse; }
+      .gufrau-home__icon-spin--shows { animation-duration: 6.2s; }
+      .gufrau-home__icon-spin--contact { animation-duration: 6.8s; }
+      .gufrau-home__icon-spin--discography { animation-duration: 4.6s; }
+      .gufrau-mesh {
+        position: relative;
+        transform-style: preserve-3d;
+      }
+      .gufrau-mesh__face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+
+      .gufrau-mesh--ticket { --d: 0.55rem; width: 3.5rem; height: 2.2rem; }
+      .gufrau-mesh--ticket .gufrau-mesh__face--front {
+        background: var(--gufrau-blue); transform: translateZ(var(--d)); border-radius: .35rem;
+        display: grid; place-items: center;
+      }
+      .gufrau-mesh--ticket .gufrau-mesh__face--back {
+        background: var(--gufrau-blue-deep); transform: rotateY(180deg) translateZ(var(--d));
+        border-radius: .35rem; display: grid; place-items: center; color: #fff;
+        font-size: .7rem; font-weight: 700; letter-spacing: .06em;
+      }
+      .gufrau-mesh--ticket .gufrau-mesh__face--left,
+      .gufrau-mesh--ticket .gufrau-mesh__face--right {
+        width: calc(var(--d)*2); height: 100%; left: 50%; margin-left: calc(var(--d)*-1);
+        background: var(--gufrau-blue-side);
+      }
+      .gufrau-mesh--ticket .gufrau-mesh__face--left { transform: rotateY(-90deg) translateZ(1.75rem); }
+      .gufrau-mesh--ticket .gufrau-mesh__face--right { transform: rotateY(90deg) translateZ(1.75rem); }
+      .gufrau-mesh--ticket .gufrau-mesh__face--top,
+      .gufrau-mesh--ticket .gufrau-mesh__face--bottom {
+        width: 100%; height: calc(var(--d)*2); top: 50%; margin-top: calc(var(--d)*-1);
+        background: var(--gufrau-blue-top);
+      }
+      .gufrau-mesh--ticket .gufrau-mesh__face--top { transform: rotateX(90deg) translateZ(1.1rem); }
+      .gufrau-mesh--ticket .gufrau-mesh__face--bottom { background: var(--gufrau-blue-bot); transform: rotateX(-90deg) translateZ(1.1rem); }
+      .gufrau-mesh__punch {
+        position: absolute; top: 50%; width: .55rem; height: .55rem; margin-top: -.275rem;
+        border-radius: 50%; background: #fff;
+      }
+      .gufrau-mesh__punch--l { left: .28rem; }
+      .gufrau-mesh__punch--r { right: .28rem; }
+      .gufrau-mesh__lines {
+        position: absolute; left: 1.05rem; right: 1.05rem; top: 28%; bottom: 28%;
+        background:
+          linear-gradient(#fff,#fff) 0 0 / 100% 2.5px no-repeat,
+          linear-gradient(#fff,#fff) 0 50% / 85% 2.5px no-repeat,
+          linear-gradient(#fff,#fff) 0 100% / 70% 2.5px no-repeat;
+      }
+
+      .gufrau-mesh--bag { width: 2.6rem; height: 2.8rem; }
+      .gufrau-mesh__bag-body {
+        position: absolute; left: 0; right: 0; bottom: 0; height: 2.15rem;
+        transform-style: preserve-3d; --d: .7rem;
+      }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--front {
+        background: var(--gufrau-blue); transform: translateZ(var(--d));
+        clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+      }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--back {
+        background: var(--gufrau-blue-deep); transform: rotateY(180deg) translateZ(var(--d));
+        clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+      }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--left,
+      .gufrau-mesh__bag-body .gufrau-mesh__face--right {
+        width: calc(var(--d)*2); height: 100%; left: 50%; margin-left: calc(var(--d)*-1);
+        background: var(--gufrau-blue-side);
+      }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--left { transform: rotateY(-90deg) translateZ(1.3rem); }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--right { transform: rotateY(90deg) translateZ(1.3rem); }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--top,
+      .gufrau-mesh__bag-body .gufrau-mesh__face--bottom {
+        width: 100%; height: calc(var(--d)*2); top: 50%; margin-top: calc(var(--d)*-1);
+      }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--top { background: var(--gufrau-blue-top); transform: rotateX(90deg) translateZ(1.075rem); }
+      .gufrau-mesh__bag-body .gufrau-mesh__face--bottom { background: var(--gufrau-blue-bot); transform: rotateX(-90deg) translateZ(1.075rem); }
+      .gufrau-mesh__handle {
+        position: absolute; left: 50%; top: .05rem; width: 1.35rem; height: .85rem; margin-left: -.675rem;
+        border: .28rem solid var(--gufrau-blue); border-bottom: none; border-radius: .7rem .7rem 0 0;
+        transform: translateZ(.35rem); box-sizing: border-box;
+      }
+
+      .gufrau-mesh--mail { --d: .45rem; width: 3.35rem; height: 2.25rem; }
+      .gufrau-mesh--mail .gufrau-mesh__face--front {
+        background: var(--gufrau-blue); transform: translateZ(var(--d)); border-radius: .25rem; overflow: hidden;
+      }
+      .gufrau-mesh--mail .gufrau-mesh__face--back {
+        background: var(--gufrau-blue-deep); transform: rotateY(180deg) translateZ(var(--d)); border-radius: .25rem;
+      }
+      .gufrau-mesh--mail .gufrau-mesh__face--left,
+      .gufrau-mesh--mail .gufrau-mesh__face--right {
+        width: calc(var(--d)*2); height: 100%; left: 50%; margin-left: calc(var(--d)*-1);
+        background: var(--gufrau-blue-side);
+      }
+      .gufrau-mesh--mail .gufrau-mesh__face--left { transform: rotateY(-90deg) translateZ(1.675rem); }
+      .gufrau-mesh--mail .gufrau-mesh__face--right { transform: rotateY(90deg) translateZ(1.675rem); }
+      .gufrau-mesh--mail .gufrau-mesh__face--top,
+      .gufrau-mesh--mail .gufrau-mesh__face--bottom {
+        width: 100%; height: calc(var(--d)*2); top: 50%; margin-top: calc(var(--d)*-1);
+      }
+      .gufrau-mesh--mail .gufrau-mesh__face--top { background: var(--gufrau-blue-top); transform: rotateX(90deg) translateZ(1.125rem); }
+      .gufrau-mesh--mail .gufrau-mesh__face--bottom { background: var(--gufrau-blue-bot); transform: rotateX(-90deg) translateZ(1.125rem); }
+      .gufrau-mesh__flap {
+        position: absolute; inset: 0;
+        background:
+          linear-gradient(to bottom right, transparent 49.5%, #fff 49.5%, #fff 50.5%, transparent 50.5%),
+          linear-gradient(to bottom left, transparent 49.5%, #fff 49.5%, #fff 50.5%, transparent 50.5%);
+      }
+
+      .gufrau-mesh--vinyl { --d: .28rem; --radius: 1.55rem; width: calc(var(--radius)*2); height: calc(var(--radius)*2); }
+      .gufrau-mesh--vinyl .gufrau-mesh__face--front,
+      .gufrau-mesh--vinyl .gufrau-mesh__face--back {
+        border-radius: 50%;
+        background: radial-gradient(circle at center, #fff 0 .12rem, var(--gufrau-blue) .12rem .55rem, #1a1a1a .55rem 100%);
+        box-shadow: inset 0 0 0 2px var(--gufrau-blue);
+      }
+      .gufrau-mesh--vinyl .gufrau-mesh__face--front { transform: translateZ(var(--d)); }
+      .gufrau-mesh--vinyl .gufrau-mesh__face--back { transform: rotateY(180deg) translateZ(var(--d)); }
+      .gufrau-mesh__rim {
+        --segments: 12;
+        position: absolute; top: 50%; left: 50%; width: .9rem; height: calc(var(--d)*2);
+        margin: calc(var(--d)*-1) 0 0 -.45rem; background: #111;
+        transform: rotateY(calc(var(--r) * (360deg / var(--segments)))) translateZ(var(--radius));
+      }
+      .gufrau-mesh__rim:nth-child(odd) { background: #222; }
+
+      .gufrau-home__item:hover .gufrau-home__icon-spin { animation-duration: 2.1s; }
+      .gufrau-home__btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-height: 2.5rem; padding: .65rem 1.4rem; border-radius: 999px;
+        background: var(--gufrau-btn-bg); color: var(--gufrau-btn-text);
+        font-size: clamp(.9rem, 1.3vw, 1.0625rem); font-weight: 600; text-transform: lowercase;
+      }
       .gufrau-home__logo {
         position: absolute;
         left: 0;
@@ -77,7 +218,7 @@
         line-height: 0;
       }
       .gufrau-home__logo-img {
-    transform: translateY(10%);
+        transform: translateY(10%);
         display: block;
         width: 109%;
         max-width: none;
@@ -92,47 +233,124 @@
         -webkit-mask-composite: source-in;
         mask-composite: intersect;
       }
-      @keyframes gufrau-btn-in {
-        from { opacity: 0; transform: translateY(8px) scale(0.97); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
-      }
-      @media (max-width: 749px) {
-        .gufrau-home__nav { gap: 0.65rem 0.75rem; padding-inline: 1rem; }
-        .gufrau-home__btn { min-height: 2.5rem; padding: 0.65rem 1.2rem; font-size: 0.9375rem; }
+      @keyframes gufrau-spin-3d {
+        from { transform: rotateX(-22deg) rotateY(0deg); }
+        to { transform: rotateX(-22deg) rotateY(360deg); }
       }
       @media (prefers-reduced-motion: reduce) {
-        .gufrau-home__btn { animation: none; transition: none; }
+        .gufrau-home__icon-spin { animation: none; transform: rotateX(-22deg) rotateY(-28deg); }
       }
       .note {
-        position: fixed;
-        top: 12px;
-        left: 12px;
-        z-index: 10;
-        font-size: 12px;
-        color: #666;
-        background: rgba(255,255,255,0.9);
-        padding: 6px 10px;
-        border-radius: 8px;
+        position: fixed; top: 12px; left: 12px; z-index: 10; font-size: 12px; color: #666;
+        background: rgba(255,255,255,.9); padding: 6px 10px; border-radius: 8px;
       }
     </style>
+  
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('gufrau-page-pending');
+      }
+    </script>
+    <style>
+      @media (prefers-reduced-motion: no-preference) {
+        html { --gufrau-page-ease: cubic-bezier(0.23, 1, 0.32, 1); }
+        html.gufrau-page-pending body {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        html.gufrau-page-ready:not(.gufrau-page-leaving) body {
+          opacity: 1;
+          transform: none;
+          transition: opacity 0.38s var(--gufrau-page-ease), transform 0.38s var(--gufrau-page-ease);
+        }
+        html.gufrau-page-leaving body { pointer-events: none; }
+      }
+    </style>
+    <script src="gufrau-page-transition.js" defer></script>
+
   </head>
   <body>
-    <p class="note">Local preview — not the live Shopify store</p>
+    <p class="note">Local preview — true 3D meshes</p>
     <section class="gufrau-home">
       <nav class="gufrau-home__nav" aria-label="Main navigation">
-        <a class="gufrau-home__btn" style="--i:0" href="shows.html">shows</a>
-        <a class="gufrau-home__btn" style="--i:1" href="shop.html">shop</a>
-        <a class="gufrau-home__btn" style="--i:2" href="contact.html">contact</a>
-        <a class="gufrau-home__btn" style="--i:3" href="#">discography</a>
+        <a class="gufrau-home__item" href="shows.html">
+          <span class="gufrau-home__icon-scene" aria-hidden="true">
+            <span class="gufrau-home__icon-spin gufrau-home__icon-spin--shows">
+              <span class="gufrau-mesh gufrau-mesh--ticket">
+                <span class="gufrau-mesh__face gufrau-mesh__face--front">
+                  <span class="gufrau-mesh__punch gufrau-mesh__punch--l"></span>
+                  <span class="gufrau-mesh__punch gufrau-mesh__punch--r"></span>
+                  <span class="gufrau-mesh__lines"></span>
+                </span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--back">LIVE</span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--left"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--right"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--top"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--bottom"></span>
+              </span>
+            </span>
+          </span>
+          <span class="gufrau-home__btn">shows</span>
+        </a>
+        <a class="gufrau-home__item" href="shop.html">
+          <span class="gufrau-home__icon-scene" aria-hidden="true">
+            <span class="gufrau-home__icon-spin gufrau-home__icon-spin--shop">
+              <span class="gufrau-mesh gufrau-mesh--bag">
+                <span class="gufrau-mesh__handle"></span>
+                <span class="gufrau-mesh__bag-body">
+                  <span class="gufrau-mesh__face gufrau-mesh__face--front"></span>
+                  <span class="gufrau-mesh__face gufrau-mesh__face--back"></span>
+                  <span class="gufrau-mesh__face gufrau-mesh__face--left"></span>
+                  <span class="gufrau-mesh__face gufrau-mesh__face--right"></span>
+                  <span class="gufrau-mesh__face gufrau-mesh__face--top"></span>
+                  <span class="gufrau-mesh__face gufrau-mesh__face--bottom"></span>
+                </span>
+              </span>
+            </span>
+          </span>
+          <span class="gufrau-home__btn">shop</span>
+        </a>
+        <a class="gufrau-home__item" href="contact.html">
+          <span class="gufrau-home__icon-scene" aria-hidden="true">
+            <span class="gufrau-home__icon-spin gufrau-home__icon-spin--contact">
+              <span class="gufrau-mesh gufrau-mesh--mail">
+                <span class="gufrau-mesh__face gufrau-mesh__face--front"><span class="gufrau-mesh__flap"></span></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--back"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--left"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--right"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--top"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--bottom"></span>
+              </span>
+            </span>
+          </span>
+          <span class="gufrau-home__btn">contact</span>
+        </a>
+        <a class="gufrau-home__item" href="#">
+          <span class="gufrau-home__icon-scene" aria-hidden="true">
+            <span class="gufrau-home__icon-spin gufrau-home__icon-spin--discography">
+              <span class="gufrau-mesh gufrau-mesh--vinyl">
+                <span class="gufrau-mesh__face gufrau-mesh__face--front"></span>
+                <span class="gufrau-mesh__face gufrau-mesh__face--back"></span>
+                <span class="gufrau-mesh__rim" style="--r:0"></span>
+                <span class="gufrau-mesh__rim" style="--r:1"></span>
+                <span class="gufrau-mesh__rim" style="--r:2"></span>
+                <span class="gufrau-mesh__rim" style="--r:3"></span>
+                <span class="gufrau-mesh__rim" style="--r:4"></span>
+                <span class="gufrau-mesh__rim" style="--r:5"></span>
+                <span class="gufrau-mesh__rim" style="--r:6"></span>
+                <span class="gufrau-mesh__rim" style="--r:7"></span>
+                <span class="gufrau-mesh__rim" style="--r:8"></span>
+                <span class="gufrau-mesh__rim" style="--r:9"></span>
+                <span class="gufrau-mesh__rim" style="--r:10"></span>
+                <span class="gufrau-mesh__rim" style="--r:11"></span>
+              </span>
+            </span>
+          </span>
+          <span class="gufrau-home__btn">discography</span>
+        </a>
       </nav>
       <div class="gufrau-home__logo">
-        <img
-          class="gufrau-home__logo-img"
-          src="gufrau-logo-home.png"
-          alt="GUFRAU"
-          width="2911"
-          height="715"
-        >
+        <img class="gufrau-home__logo-img" src="gufrau-logo-home.png" alt="GUFRAU" width="2911" height="715">
       </div>
     </section>
   </body>

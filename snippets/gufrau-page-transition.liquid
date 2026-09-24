@@ -1,0 +1,67 @@
+{%- comment -%}
+  Smooth page enter/leave for GUFRAU.
+  Native View Transitions (Chrome) + JS fallback for Safari/Firefox.
+{%- endcomment -%}
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('gufrau-page-pending');
+  }
+</script>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      --gufrau-page-ease: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* Softer, longer transition than the theme default (125ms) on GUFRAU pages */
+    html:has(.gufrau-home),
+    html:has(.gufrau-shop),
+    html:has(.gufrau-shows),
+    html:has(.gufrau-contact),
+    html:has(.gufrau-product) {
+      --view-transition-old-main-content: 0.28s var(--gufrau-page-ease) both fadeOut;
+      --view-transition-new-main-content:
+        0.38s var(--gufrau-page-ease) both fadeIn,
+        0.38s var(--gufrau-page-ease) both gufrauPageIn;
+    }
+
+    @keyframes gufrauPageIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    html.gufrau-page-pending #MainContent {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    html.gufrau-page-ready:not(.gufrau-page-leaving) #MainContent {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 0.38s var(--gufrau-page-ease),
+        transform 0.38s var(--gufrau-page-ease);
+    }
+
+    html.gufrau-page-leaving #MainContent {
+      pointer-events: none;
+    }
+
+    /* Avoid double-animating when native MPA view transitions run */
+    html:active-view-transition-type(page-navigation) #MainContent {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+<script src="{{ 'gufrau-page-transition.js' | asset_url }}" defer></script>

@@ -16,8 +16,26 @@
   <nav class="gufrau-home__nav" aria-label="Main navigation">
     {%- for block in section.blocks -%}
       {%- if block.settings.label != blank -%}
+        {%- liquid
+          assign icon = block.settings.icon
+          if icon == blank
+            assign label_down = block.settings.label | downcase | strip
+            case label_down
+              when 'shows'
+                assign icon = 'shows'
+              when 'shop'
+                assign icon = 'shop'
+              when 'contact'
+                assign icon = 'contact'
+              when 'discography'
+                assign icon = 'discography'
+              else
+                assign icon = 'shop'
+            endcase
+          endif
+        -%}
         <a
-          class="gufrau-home__btn"
+          class="gufrau-home__item"
           href="{{ block.settings.link | default: '#' }}"
           style="--i: {{ forloop.index0 }}"
           {% if block.settings.open_in_new_tab %}
@@ -26,7 +44,79 @@
           {% endif %}
           {{ block.shopify_attributes }}
         >
-          {{ block.settings.label | escape }}
+          <span class="gufrau-home__icon-scene" aria-hidden="true">
+            <span class="gufrau-home__icon-spin gufrau-home__icon-spin--{{ icon }}">
+              {%- case icon -%}
+                {%- when 'shows' -%}
+                  <span class="gufrau-mesh gufrau-mesh--ticket">
+                    <span class="gufrau-mesh__face gufrau-mesh__face--front">
+                      <span class="gufrau-mesh__punch gufrau-mesh__punch--l"></span>
+                      <span class="gufrau-mesh__punch gufrau-mesh__punch--r"></span>
+                      <span class="gufrau-mesh__lines"></span>
+                    </span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--back">LIVE</span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--left"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--right"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--top"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--bottom"></span>
+                  </span>
+                {%- when 'shop' -%}
+                  <span class="gufrau-mesh gufrau-mesh--bag">
+                    <span class="gufrau-mesh__handle"></span>
+                    <span class="gufrau-mesh__bag-body">
+                      <span class="gufrau-mesh__face gufrau-mesh__face--front"></span>
+                      <span class="gufrau-mesh__face gufrau-mesh__face--back"></span>
+                      <span class="gufrau-mesh__face gufrau-mesh__face--left"></span>
+                      <span class="gufrau-mesh__face gufrau-mesh__face--right"></span>
+                      <span class="gufrau-mesh__face gufrau-mesh__face--top"></span>
+                      <span class="gufrau-mesh__face gufrau-mesh__face--bottom"></span>
+                    </span>
+                  </span>
+                {%- when 'contact' -%}
+                  <span class="gufrau-mesh gufrau-mesh--mail">
+                    <span class="gufrau-mesh__face gufrau-mesh__face--front">
+                      <span class="gufrau-mesh__flap"></span>
+                    </span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--back"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--left"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--right"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--top"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--bottom"></span>
+                  </span>
+                {%- when 'discography' -%}
+                  <span class="gufrau-mesh gufrau-mesh--vinyl">
+                    <span class="gufrau-mesh__face gufrau-mesh__face--front">
+                      <span class="gufrau-mesh__label"></span>
+                    </span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--back">
+                      <span class="gufrau-mesh__label"></span>
+                    </span>
+                    <span class="gufrau-mesh__rim" style="--r: 0"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 1"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 2"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 3"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 4"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 5"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 6"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 7"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 8"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 9"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 10"></span>
+                    <span class="gufrau-mesh__rim" style="--r: 11"></span>
+                  </span>
+                {%- else -%}
+                  <span class="gufrau-mesh gufrau-mesh--ticket">
+                    <span class="gufrau-mesh__face gufrau-mesh__face--front"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--back"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--left"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--right"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--top"></span>
+                    <span class="gufrau-mesh__face gufrau-mesh__face--bottom"></span>
+                  </span>
+              {%- endcase -%}
+            </span>
+          </span>
+          <span class="gufrau-home__btn">{{ block.settings.label | escape }}</span>
         </a>
       {%- endif -%}
     {%- endfor -%}
@@ -60,7 +150,6 @@
 </section>
 
 {% stylesheet %}
-  /* Force a clean white canvas for this homepage composition */
   body:has(.gufrau-home) {
     background: var(--gufrau-page-bg, #ffffff);
     color: #111;
@@ -87,6 +176,11 @@
     --gufrau-btn-text: #ffffff;
     --gufrau-page-bg: #ffffff;
     --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+    --gufrau-blue: #0000ff;
+    --gufrau-blue-deep: #0000b8;
+    --gufrau-blue-side: #0010aa;
+    --gufrau-blue-top: #3355ff;
+    --gufrau-blue-bot: #000088;
 
     flex: 1;
     width: 100%;
@@ -97,7 +191,6 @@
     justify-content: flex-end;
     background: var(--gufrau-page-bg);
     overflow: visible;
-    width: 100%;
     isolation: isolate;
   }
 
@@ -109,53 +202,393 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: clamp(0.75rem, 2.2vw, 1.75rem);
+    gap: clamp(1.25rem, 4vw, 3rem);
     padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem);
     pointer-events: none;
     transform: translateY(-20%);
   }
 
-  .gufrau-home__nav .gufrau-home__btn {
+  .gufrau-home__item {
+    --i: 0;
     pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+    animation: gufrau-btn-in 480ms var(--gufrau-ease) both;
+    animation-delay: calc(80ms + var(--i) * 60ms);
+  }
+
+  .gufrau-home__icon-scene {
+    width: clamp(5rem, 10vw, 6.5rem);
+    height: clamp(5rem, 10vw, 6.5rem);
+    perspective: 720px;
+    perspective-origin: 50% 40%;
+    display: grid;
+    place-items: center;
+  }
+
+  .gufrau-home__icon-spin {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    transform-style: preserve-3d;
+    will-change: transform;
+    animation: gufrau-spin-3d 5.5s linear infinite;
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.22));
+  }
+
+  .gufrau-home__icon-spin--shows {
+    animation-duration: 6.2s;
+  }
+
+  .gufrau-home__icon-spin--shop {
+    animation-duration: 5.4s;
+    animation-direction: reverse;
+  }
+
+  .gufrau-home__icon-spin--contact {
+    animation-duration: 6.8s;
+  }
+
+  .gufrau-home__icon-spin--discography {
+    animation-duration: 4.6s;
+  }
+
+  .gufrau-mesh {
+    position: relative;
+    width: 3.4rem;
+    height: 2.35rem;
+    transform-style: preserve-3d;
+  }
+
+  .gufrau-mesh__face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* —— Ticket —— */
+  .gufrau-mesh--ticket {
+    --d: 0.55rem;
+    width: 3.5rem;
+    height: 2.2rem;
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--front {
+    background: var(--gufrau-blue);
+    transform: translateZ(var(--d));
+    border-radius: 0.35rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--back {
+    background: var(--gufrau-blue-deep);
+    transform: rotateY(180deg) translateZ(var(--d));
+    border-radius: 0.35rem;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--left,
+  .gufrau-mesh--ticket .gufrau-mesh__face--right {
+    width: calc(var(--d) * 2);
+    height: 100%;
+    left: 50%;
+    margin-left: calc(var(--d) * -1);
+    background: var(--gufrau-blue-side);
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--left {
+    transform: rotateY(-90deg) translateZ(1.75rem);
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--right {
+    transform: rotateY(90deg) translateZ(1.75rem);
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--top,
+  .gufrau-mesh--ticket .gufrau-mesh__face--bottom {
+    width: 100%;
+    height: calc(var(--d) * 2);
+    top: 50%;
+    margin-top: calc(var(--d) * -1);
+    background: var(--gufrau-blue-top);
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--top {
+    transform: rotateX(90deg) translateZ(1.1rem);
+  }
+
+  .gufrau-mesh--ticket .gufrau-mesh__face--bottom {
+    background: var(--gufrau-blue-bot);
+    transform: rotateX(-90deg) translateZ(1.1rem);
+  }
+
+  .gufrau-mesh__punch {
+    position: absolute;
+    top: 50%;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-top: -0.275rem;
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  .gufrau-mesh__punch--l { left: 0.28rem; }
+  .gufrau-mesh__punch--r { right: 0.28rem; }
+
+  .gufrau-mesh__lines {
+    position: absolute;
+    left: 1.05rem;
+    right: 1.05rem;
+    top: 28%;
+    bottom: 28%;
+    background:
+      linear-gradient(#fff, #fff) 0 0 / 100% 2.5px no-repeat,
+      linear-gradient(#fff, #fff) 0 50% / 85% 2.5px no-repeat,
+      linear-gradient(#fff, #fff) 0 100% / 70% 2.5px no-repeat;
+    opacity: 0.95;
+  }
+
+  /* —— Bag —— */
+  .gufrau-mesh--bag {
+    width: 2.6rem;
+    height: 2.8rem;
+  }
+
+  .gufrau-mesh__bag-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2.15rem;
+    transform-style: preserve-3d;
+    --d: 0.7rem;
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--front {
+    background: var(--gufrau-blue);
+    transform: translateZ(var(--d));
+    clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--back {
+    background: var(--gufrau-blue-deep);
+    transform: rotateY(180deg) translateZ(var(--d));
+    clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--left,
+  .gufrau-mesh__bag-body .gufrau-mesh__face--right {
+    width: calc(var(--d) * 2);
+    height: 100%;
+    left: 50%;
+    margin-left: calc(var(--d) * -1);
+    background: var(--gufrau-blue-side);
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--left {
+    transform: rotateY(-90deg) translateZ(1.3rem);
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--right {
+    transform: rotateY(90deg) translateZ(1.3rem);
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--top,
+  .gufrau-mesh__bag-body .gufrau-mesh__face--bottom {
+    width: 100%;
+    height: calc(var(--d) * 2);
+    top: 50%;
+    margin-top: calc(var(--d) * -1);
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--top {
+    background: var(--gufrau-blue-top);
+    transform: rotateX(90deg) translateZ(1.075rem);
+  }
+
+  .gufrau-mesh__bag-body .gufrau-mesh__face--bottom {
+    background: var(--gufrau-blue-bot);
+    transform: rotateX(-90deg) translateZ(1.075rem);
+  }
+
+  .gufrau-mesh__handle {
+    position: absolute;
+    left: 50%;
+    top: 0.05rem;
+    width: 1.35rem;
+    height: 0.85rem;
+    margin-left: -0.675rem;
+    border: 0.28rem solid var(--gufrau-blue);
+    border-bottom: none;
+    border-radius: 0.7rem 0.7rem 0 0;
+    transform: translateZ(0.35rem);
+    box-sizing: border-box;
+  }
+
+  /* —— Mail —— */
+  .gufrau-mesh--mail {
+    --d: 0.45rem;
+    width: 3.35rem;
+    height: 2.25rem;
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--front {
+    background: var(--gufrau-blue);
+    transform: translateZ(var(--d));
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--back {
+    background: var(--gufrau-blue-deep);
+    transform: rotateY(180deg) translateZ(var(--d));
+    border-radius: 0.25rem;
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--left,
+  .gufrau-mesh--mail .gufrau-mesh__face--right {
+    width: calc(var(--d) * 2);
+    height: 100%;
+    left: 50%;
+    margin-left: calc(var(--d) * -1);
+    background: var(--gufrau-blue-side);
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--left {
+    transform: rotateY(-90deg) translateZ(1.675rem);
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--right {
+    transform: rotateY(90deg) translateZ(1.675rem);
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--top,
+  .gufrau-mesh--mail .gufrau-mesh__face--bottom {
+    width: 100%;
+    height: calc(var(--d) * 2);
+    top: 50%;
+    margin-top: calc(var(--d) * -1);
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--top {
+    background: var(--gufrau-blue-top);
+    transform: rotateX(90deg) translateZ(1.125rem);
+  }
+
+  .gufrau-mesh--mail .gufrau-mesh__face--bottom {
+    background: var(--gufrau-blue-bot);
+    transform: rotateX(-90deg) translateZ(1.125rem);
+  }
+
+  .gufrau-mesh__flap {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, transparent 49.5%, #fff 49.5%, #fff 50.5%, transparent 50.5%),
+      linear-gradient(to bottom left, transparent 49.5%, #fff 49.5%, #fff 50.5%, transparent 50.5%);
+    opacity: 0.95;
+  }
+
+  /* —— Vinyl —— */
+  .gufrau-mesh--vinyl {
+    --d: 0.28rem;
+    --radius: 1.55rem;
+    width: calc(var(--radius) * 2);
+    height: calc(var(--radius) * 2);
+  }
+
+  .gufrau-mesh--vinyl .gufrau-mesh__face--front,
+  .gufrau-mesh--vinyl .gufrau-mesh__face--back {
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at center, #fff 0 0.12rem, var(--gufrau-blue) 0.12rem 0.55rem, #1a1a1a 0.55rem 100%);
+    box-shadow: inset 0 0 0 2px var(--gufrau-blue);
+  }
+
+  .gufrau-mesh--vinyl .gufrau-mesh__face--front {
+    transform: translateZ(var(--d));
+  }
+
+  .gufrau-mesh--vinyl .gufrau-mesh__face--back {
+    transform: rotateY(180deg) translateZ(var(--d));
+  }
+
+  .gufrau-mesh--vinyl .gufrau-mesh__label {
+    position: absolute;
+    inset: 32%;
+    border-radius: 50%;
+    background: var(--gufrau-blue);
+    box-shadow: inset 0 0 0 0.15rem #fff3;
+  }
+
+  .gufrau-mesh__rim {
+    --segments: 12;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.9rem;
+    height: calc(var(--d) * 2);
+    margin: calc(var(--d) * -1) 0 0 -0.45rem;
+    background: #111;
+    transform:
+      rotateY(calc(var(--r) * (360deg / var(--segments))))
+      translateZ(var(--radius));
+  }
+
+  .gufrau-mesh__rim:nth-child(odd) {
+    background: #222;
+  }
+
+  .gufrau-home__item:hover .gufrau-home__icon-spin {
+    animation-duration: 2.1s;
   }
 
   .gufrau-home__btn {
-    --i: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem;
-    padding: 0.7rem 1.55rem;
+    min-height: 2.5rem;
+    padding: 0.65rem 1.4rem;
     border-radius: 999px;
     background: var(--gufrau-btn-bg);
     color: var(--gufrau-btn-text);
     font-family: var(--font-body--family, system-ui, sans-serif);
-    font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+    font-size: clamp(0.9rem, 1.3vw, 1.0625rem);
     font-weight: 600;
     letter-spacing: -0.01em;
     line-height: 1;
-    text-decoration: none;
     text-transform: lowercase;
     white-space: nowrap;
-    transform: translateZ(0);
     transition:
       transform 180ms var(--gufrau-ease),
-      filter 180ms var(--gufrau-ease),
-      opacity 180ms var(--gufrau-ease);
-    animation: gufrau-btn-in 420ms var(--gufrau-ease) both;
-    animation-delay: calc(80ms + var(--i) * 50ms);
+      filter 180ms var(--gufrau-ease);
   }
 
-  .gufrau-home__btn:hover {
+  .gufrau-home__item:hover .gufrau-home__btn {
     filter: brightness(1.08);
     transform: scale(1.02);
   }
 
-  .gufrau-home__btn:active {
+  .gufrau-home__item:active .gufrau-home__btn {
     transform: scale(0.97);
   }
 
-  .gufrau-home__btn:focus-visible {
+  .gufrau-home__item:focus-visible {
+    outline: none;
+  }
+
+  .gufrau-home__item:focus-visible .gufrau-home__btn {
     outline: 2px solid var(--gufrau-btn-bg);
     outline-offset: 3px;
   }
@@ -191,10 +624,19 @@
     mask-composite: intersect;
   }
 
+  @keyframes gufrau-spin-3d {
+    from {
+      transform: rotateX(-22deg) rotateY(0deg);
+    }
+    to {
+      transform: rotateX(-22deg) rotateY(360deg);
+    }
+  }
+
   @keyframes gufrau-btn-in {
     from {
       opacity: 0;
-      transform: translateY(8px) scale(0.97);
+      transform: translateY(10px) scale(0.96);
     }
     to {
       opacity: 1;
@@ -204,20 +646,51 @@
 
   @media screen and (max-width: 749px) {
     .gufrau-home__nav {
-      gap: 0.65rem 0.75rem;
+      gap: 1rem 1.1rem;
       padding-inline: 1rem;
     }
 
+    .gufrau-home__icon-scene {
+      width: 4.25rem;
+      height: 4.25rem;
+    }
+
+    .gufrau-mesh--ticket {
+      width: 2.9rem;
+      height: 1.85rem;
+    }
+
+    .gufrau-mesh--ticket .gufrau-mesh__face--left {
+      transform: rotateY(-90deg) translateZ(1.45rem);
+    }
+
+    .gufrau-mesh--ticket .gufrau-mesh__face--right {
+      transform: rotateY(90deg) translateZ(1.45rem);
+    }
+
+    .gufrau-mesh--ticket .gufrau-mesh__face--top {
+      transform: rotateX(90deg) translateZ(0.925rem);
+    }
+
+    .gufrau-mesh--ticket .gufrau-mesh__face--bottom {
+      transform: rotateX(-90deg) translateZ(0.925rem);
+    }
+
     .gufrau-home__btn {
-      min-height: 2.5rem;
-      padding: 0.65rem 1.2rem;
-      font-size: 0.9375rem;
+      min-height: 2.25rem;
+      padding: 0.55rem 1.1rem;
+      font-size: 0.875rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .gufrau-home__btn {
-      transition: none;
+    .gufrau-home__icon-spin,
+    .gufrau-home__item:hover .gufrau-home__icon-spin {
+      animation: none;
+      transform: rotateX(-22deg) rotateY(-28deg);
+    }
+
+    .gufrau-home__item {
       animation: none;
     }
   }
@@ -266,6 +739,19 @@
           "default": "shop"
         },
         {
+          "type": "select",
+          "id": "icon",
+          "label": "Rotating icon",
+          "options": [
+            { "value": "", "label": "Auto from label" },
+            { "value": "shows", "label": "Shows (ticket)" },
+            { "value": "shop", "label": "Shop (bag)" },
+            { "value": "contact", "label": "Contact (mail)" },
+            { "value": "discography", "label": "Discography (vinyl)" }
+          ],
+          "default": ""
+        },
+        {
           "type": "url",
           "id": "link",
           "label": "Link"
@@ -283,30 +769,10 @@
     {
       "name": "GUFRAU home",
       "blocks": [
-        {
-          "type": "link",
-          "settings": {
-            "label": "shows"
-          }
-        },
-        {
-          "type": "link",
-          "settings": {
-            "label": "shop"
-          }
-        },
-        {
-          "type": "link",
-          "settings": {
-            "label": "contact"
-          }
-        },
-        {
-          "type": "link",
-          "settings": {
-            "label": "discography"
-          }
-        }
+        { "type": "link", "settings": { "label": "shows", "icon": "shows" } },
+        { "type": "link", "settings": { "label": "shop", "icon": "shop" } },
+        { "type": "link", "settings": { "label": "contact", "icon": "contact" } },
+        { "type": "link", "settings": { "label": "discography", "icon": "discography" } }
       ]
     }
   ]

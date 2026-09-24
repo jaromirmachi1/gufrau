@@ -132,6 +132,29 @@
         .gufrau-shows__tickets { grid-area: tickets; }
       }
     </style>
+  
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('gufrau-page-pending');
+      }
+    </script>
+    <style>
+      @media (prefers-reduced-motion: no-preference) {
+        html { --gufrau-page-ease: cubic-bezier(0.23, 1, 0.32, 1); }
+        html.gufrau-page-pending body {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        html.gufrau-page-ready:not(.gufrau-page-leaving) body {
+          opacity: 1;
+          transform: none;
+          transition: opacity 0.38s var(--gufrau-page-ease), transform 0.38s var(--gufrau-page-ease);
+        }
+        html.gufrau-page-leaving body { pointer-events: none; }
+      }
+    </style>
+    <script src="gufrau-page-transition.js" defer></script>
+
   </head>
   <body>
     <section class="gufrau-shows">
