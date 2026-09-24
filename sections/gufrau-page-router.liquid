@@ -1,6 +1,6 @@
 {% comment %}
-  Routes /pages/shop, /pages/shows, /pages/contact to GUFRAU layouts
-  even when the page still uses the default "page" template.
+  Routes /pages/shop, /pages/shows, /pages/contact, /pages/discography
+  to GUFRAU layouts even when the page still uses the default "page" template.
 {% endcomment %}
 
 {% liquid
@@ -14,6 +14,8 @@
     {% render 'gufrau-shows' %}
   {% when 'contact' %}
     {% render 'gufrau-contact' %}
+  {% when 'discography' %}
+    {% render 'gufrau-discography' %}
   {% else %}
     <div class="section-background color-{{ section.settings.color_scheme }}"></div>
     <div class="section page-width-content color-{{ section.settings.color_scheme }}">
@@ -46,7 +48,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Auto-loads Shop, Shows, or Contact when the page handle matches. Other pages show the normal title and content."
+      "content": "Auto-loads Shop, Shows, Contact, or Discography when the page handle matches. Other pages show the normal title and content."
     },
     {
       "type": "color_scheme",

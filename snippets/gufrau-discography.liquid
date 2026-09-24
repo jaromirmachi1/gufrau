@@ -1,0 +1,332 @@
+{% liquid
+  assign logo_image = section.settings.logo
+  assign artist_id = section.settings.catalog_artist_id | default: '192826687'
+  assign spotify_id = section.settings.spotify_artist_id | default: '0WpBMqO4ai8W3rh3ffW14Q'
+%}
+
+<section
+  class="gufrau-discography"
+  data-gufrau-discography
+  data-artist-id="{{ artist_id | escape }}"
+  data-spotify-id="{{ spotify_id | escape }}"
+  {{ section.shopify_attributes }}
+>
+  <a class="gufrau-discography__home" href="{{ routes.root_url }}">home</a>
+  <a
+    class="gufrau-discography__spotify"
+    data-spotify-artist
+    href="https://open.spotify.com/artist/{{ spotify_id | escape }}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >Spotify</a>
+
+  <div class="gufrau-discography__stage">
+    <h1 class="gufrau-discography__title">Discography</h1>
+    <p class="gufrau-discography__status" data-status>Loading catalog…</p>
+    <div data-releases></div>
+  </div>
+
+  <audio data-audio preload="none"></audio>
+
+  <div class="gufrau-discography__logo" aria-hidden="true">
+    {%- if logo_image != blank -%}
+      {{
+        logo_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'gufrau-discography__logo-img',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          sizes: '100vw',
+          loading: 'eager',
+          alt: ''
+      }}
+    {%- else -%}
+      <img
+        class="gufrau-discography__logo-img"
+        src="{{ 'gufrau-logo-discography.png' | asset_url }}"
+        alt=""
+        width="2539"
+        height="626"
+        loading="eager"
+      >
+    {%- endif -%}
+  </div>
+</section>
+
+<script src="{{ 'gufrau-discography.js' | asset_url }}" defer></script>
+
+{% stylesheet %}
+  body:has(.gufrau-discography) {
+    background: #ffffff;
+    color: #111;
+  }
+
+  body:has(.gufrau-discography) #header-group:empty,
+  body:has(.gufrau-discography) footer:has(.shopify-section-group-footer-group:empty) {
+    display: none;
+  }
+
+  body:has(.gufrau-discography) .content-for-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  body:has(.gufrau-discography) .content-for-layout > .shopify-section:has(.gufrau-discography) {
+    flex: 1;
+    display: flex;
+  }
+
+  .gufrau-discography {
+    --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+    --gufrau-blue: #0000ff;
+    position: relative;
+    flex: 1;
+    width: 100%;
+    min-height: 100dvh;
+    background: #fff;
+    color: #111;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .gufrau-discography__home,
+  .gufrau-discography__spotify {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.75rem);
+    z-index: 3;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: #111;
+    transition: opacity 180ms var(--gufrau-ease);
+  }
+
+  .gufrau-discography__home {
+    left: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .gufrau-discography__spotify {
+    right: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .gufrau-discography__home:hover,
+  .gufrau-discography__spotify:hover {
+    opacity: 0.6;
+  }
+
+  .gufrau-discography__home:focus-visible,
+  .gufrau-discography__spotify:focus-visible,
+  .gufrau-discography__play:focus-visible,
+  .gufrau-discography__open:focus-visible,
+  .gufrau-discography__cover:focus-visible {
+    outline: 2px solid var(--gufrau-blue);
+    outline-offset: 3px;
+  }
+
+  .gufrau-discography__stage {
+    position: relative;
+    z-index: 2;
+    height: 100dvh;
+    overflow: auto;
+    padding: clamp(4.5rem, 10vh, 6.5rem) clamp(1.25rem, 4vw, 3.5rem) 34vh;
+    scrollbar-color: #0000ff #fff;
+  }
+
+  .gufrau-discography__title {
+    margin: 0 0 clamp(1.75rem, 4vh, 2.75rem);
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+  }
+
+  .gufrau-discography__status {
+    margin: 0 0 1.5rem;
+    color: #0b1f7a;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .gufrau-discography__status[hidden] {
+    display: none;
+  }
+
+  .gufrau-discography__release {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 42rem);
+    gap: clamp(1rem, 2vw, 1.75rem);
+    align-items: start;
+    margin: 0 0 clamp(2.25rem, 5vh, 3.5rem);
+  }
+
+  .gufrau-discography__cover {
+    display: block;
+    width: 7.5rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 0.35rem;
+    transition: transform 180ms var(--gufrau-ease);
+  }
+
+  .gufrau-discography__cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gufrau-discography__cover:hover {
+    transform: scale(1.03);
+  }
+
+  .gufrau-discography__cover:active {
+    transform: scale(0.97);
+  }
+
+  .gufrau-discography__release-head h2 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .gufrau-discography__release-head p {
+    margin: 0.35rem 0 0.85rem;
+    color: #0b1f7a;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+  }
+
+  .gufrau-discography__tracks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .gufrau-discography__track {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto auto auto;
+    gap: 0.75rem;
+    align-items: center;
+    min-height: 2.5rem;
+    border-top: 1px solid rgba(11, 31, 122, 0.12);
+  }
+
+  .gufrau-discography__index,
+  .gufrau-discography__time {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #0b1f7a;
+  }
+
+  .gufrau-discography__name {
+    font-size: 0.98rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .gufrau-discography__play {
+    width: 1.85rem;
+    height: 1.85rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--gufrau-blue);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform 160ms var(--gufrau-ease);
+  }
+
+  .gufrau-discography__play:hover {
+    transform: scale(1.04);
+  }
+
+  .gufrau-discography__play:active {
+    transform: scale(0.97);
+  }
+
+  .gufrau-discography__glyph {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.28rem 0 0.28rem 0.46rem;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 0.12rem;
+  }
+
+  .gufrau-discography__play[data-state='playing'] .gufrau-discography__glyph {
+    width: 0.48rem;
+    height: 0.48rem;
+    margin: 0;
+    border: 0;
+    background: linear-gradient(#fff, #fff) 0 0 / 0.14rem 100% no-repeat,
+      linear-gradient(#fff, #fff) 100% 0 / 0.14rem 100% no-repeat;
+  }
+
+  .gufrau-discography__open {
+    color: #0b1f7a;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: lowercase;
+  }
+
+  .gufrau-discography__open:hover {
+    color: var(--gufrau-blue);
+  }
+
+  .gufrau-discography__fallback a {
+    color: var(--gufrau-blue);
+    font-weight: 700;
+  }
+
+  .gufrau-discography__logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    line-height: 0;
+    pointer-events: none;
+  }
+
+  .gufrau-discography__logo-img {
+    transform: translateY(10%);
+    display: block;
+    width: 105%;
+    max-width: none;
+    height: auto;
+    margin: 0 0 0 -2.5%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .gufrau-discography__release {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+    }
+
+    .gufrau-discography__cover {
+      width: 4.5rem;
+    }
+
+    .gufrau-discography__track {
+      grid-template-columns: 1.5rem minmax(0, 1fr) auto auto;
+    }
+
+    .gufrau-discography__time {
+      display: none;
+    }
+  }
+{% endstylesheet %}

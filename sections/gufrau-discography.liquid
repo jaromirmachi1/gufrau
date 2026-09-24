@@ -1,0 +1,35 @@
+{% render 'gufrau-discography' %}
+
+{% schema %}
+{
+  "name": "GUFRAU discography",
+  "tag": "div",
+  "class": "gufrau-discography-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "spotify_artist_id",
+      "label": "Spotify artist ID",
+      "default": "0WpBMqO4ai8W3rh3ffW14Q"
+    },
+    {
+      "type": "text",
+      "id": "catalog_artist_id",
+      "label": "Catalog artist ID",
+      "default": "192826687",
+      "info": "Deezer artist used to list releases in the browser. Spotify links stay on the Spotify artist ID."
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Bottom logo",
+      "info": "Defaults to the thermal GUFRAU mark if empty"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GUFRAU discography"
+    }
+  ]
+}
+{% endschema %}

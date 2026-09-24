@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "gufrau_discography": {
+      "type": "gufrau-discography",
+      "settings": {}
+    }
+  },
+  "order": ["gufrau_discography"]
+}

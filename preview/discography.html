@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GUFRAU — discography</title>
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('gufrau-page-pending');
+      }
+    </script>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #fff;
+        color: #111;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      .gufrau-discography {
+        --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        --gufrau-blue: #0000ff;
+        position: relative;
+        min-height: 100dvh;
+        background: #fff;
+        color: #111;
+        isolation: isolate;
+        overflow: hidden;
+      }
+      .gufrau-discography__home,
+      .gufrau-discography__spotify {
+        position: absolute;
+        top: clamp(1rem, 3vw, 1.75rem);
+        z-index: 3;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        text-decoration: none;
+        color: #111;
+      }
+      .gufrau-discography__home { left: clamp(1rem, 3vw, 1.75rem); }
+      .gufrau-discography__spotify { right: clamp(1rem, 3vw, 1.75rem); }
+      .gufrau-discography__stage {
+        position: relative;
+        z-index: 2;
+        height: 100dvh;
+        overflow: auto;
+        padding: clamp(4.5rem, 10vh, 6.5rem) clamp(1.25rem, 4vw, 3.5rem) 34vh;
+      }
+      .gufrau-discography__title {
+        margin: 0 0 clamp(1.75rem, 4vh, 2.75rem);
+        font-size: clamp(2.4rem, 6vw, 4.5rem);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+      }
+      .gufrau-discography__status { margin: 0 0 1.5rem; color: #0b1f7a; font-weight: 600; }
+      .gufrau-discography__status[hidden] { display: none; }
+      .gufrau-discography__release {
+        display: grid;
+        grid-template-columns: 7.5rem minmax(0, 42rem);
+        gap: 1.25rem;
+        margin: 0 0 3rem;
+      }
+      .gufrau-discography__cover { display: block; width: 7.5rem; aspect-ratio: 1; overflow: hidden; border-radius: 0.35rem; }
+      .gufrau-discography__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .gufrau-discography__release-head h2 { margin: 0; font-size: 1.6rem; letter-spacing: -0.03em; }
+      .gufrau-discography__release-head p { margin: 0.35rem 0 0.85rem; color: #0b1f7a; font-size: 0.82rem; font-weight: 600; }
+      .gufrau-discography__tracks { list-style: none; margin: 0; padding: 0; }
+      .gufrau-discography__track {
+        display: grid;
+        grid-template-columns: 2rem minmax(0, 1fr) auto auto auto;
+        gap: 0.75rem;
+        align-items: center;
+        min-height: 2.5rem;
+        border-top: 1px solid rgba(11, 31, 122, 0.12);
+      }
+      .gufrau-discography__index, .gufrau-discography__time { font-variant-numeric: tabular-nums; font-size: 0.78rem; font-weight: 600; color: #0b1f7a; }
+      .gufrau-discography__name { font-weight: 600; }
+      .gufrau-discography__play {
+        width: 1.85rem; height: 1.85rem; border: 0; border-radius: 999px; background: #0000ff; display: grid; place-items: center; cursor: pointer;
+      }
+      .gufrau-discography__glyph {
+        width: 0; height: 0; border-style: solid; border-width: 0.28rem 0 0.28rem 0.46rem; border-color: transparent transparent transparent #fff; margin-left: 0.12rem;
+      }
+      .gufrau-discography__play[data-state='playing'] .gufrau-discography__glyph {
+        width: 0.48rem; height: 0.48rem; margin: 0; border: 0;
+        background: linear-gradient(#fff, #fff) 0 0 / 0.14rem 100% no-repeat, linear-gradient(#fff, #fff) 100% 0 / 0.14rem 100% no-repeat;
+      }
+      .gufrau-discography__open { color: #0b1f7a; font-size: 0.75rem; font-weight: 700; text-decoration: none; }
+      @media (max-width: 749px) {
+        .gufrau-discography__release { grid-template-columns: 4.5rem minmax(0, 1fr); }
+        .gufrau-discography__cover { width: 4.5rem; }
+        .gufrau-discography__time { display: none; }
+      }
+      .gufrau-discography__logo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+        pointer-events: none;
+      }
+      .gufrau-discography__logo-img {
+        transform: translateY(10%);
+        display: block;
+        width: 105%;
+        max-width: none;
+        height: auto;
+        margin: 0 0 0 -2.5%;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        html { --gufrau-page-ease: cubic-bezier(0.23, 1, 0.32, 1); }
+        html.gufrau-page-pending body {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        html.gufrau-page-ready:not(.gufrau-page-leaving) body {
+          opacity: 1;
+          transform: none;
+          transition: opacity 0.38s var(--gufrau-page-ease), transform 0.38s var(--gufrau-page-ease);
+        }
+        html.gufrau-page-leaving body { pointer-events: none; }
+      }
+    </style>
+    <script src="gufrau-page-transition.js" defer></script>
+    <script src="gufrau-discography.js" defer></script>
+  </head>
+  <body>
+    <section class="gufrau-discography" data-gufrau-discography data-artist-id="192826687" data-spotify-id="0WpBMqO4ai8W3rh3ffW14Q">
+      <a class="gufrau-discography__home" href="index.html">home</a>
+      <a class="gufrau-discography__spotify" data-spotify-artist href="https://open.spotify.com/artist/0WpBMqO4ai8W3rh3ffW14Q">Spotify</a>
+      <div class="gufrau-discography__stage">
+        <h1 class="gufrau-discography__title">Discography</h1>
+        <p class="gufrau-discography__status" data-status>Loading catalog…</p>
+        <div data-releases></div>
+      </div>
+      <audio data-audio preload="none"></audio>
+      <div class="gufrau-discography__logo" aria-hidden="true">
+        <img
+          class="gufrau-discography__logo-img"
+          src="gufrau-logo-discography.png"
+          alt=""
+          width="2539"
+          height="626"
+        >
+      </div>
+    </section>
+  </body>
+</html>

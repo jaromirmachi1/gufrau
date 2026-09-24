@@ -35,7 +35,7 @@
           "settings": {
             "label": "discography",
             "icon": "discography",
-            "link": "",
+            "link": "shopify://pages/discography",
             "open_in_new_tab": false
           }
         }
