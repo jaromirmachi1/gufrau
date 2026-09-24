@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "gufrau_shows": {
+      "type": "gufrau-shows",
+      "settings": {}
+    }
+  },
+  "order": ["gufrau_shows"]
+}

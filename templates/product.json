@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "gufrau_product": {
+      "type": "gufrau-product",
+      "settings": {
+        "buy_label": "BUY"
+      }
+    }
+  },
+  "order": ["gufrau_product"]
+}

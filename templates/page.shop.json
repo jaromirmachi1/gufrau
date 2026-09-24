@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "gufrau_shop": {
+      "type": "gufrau-shop",
+      "settings": {
+        "products_limit": 24,
+        "buy_label": "BUY"
+      }
+    }
+  },
+  "order": ["gufrau_shop"]
+}

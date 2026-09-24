@@ -1,0 +1,53 @@
+{
+  "sections": {
+    "gufrau_home": {
+      "type": "gufrau-home",
+      "blocks": {
+        "link_shows": {
+          "type": "link",
+          "settings": {
+            "label": "shows",
+            "link": "shopify://pages/shows",
+            "open_in_new_tab": false
+          }
+        },
+        "link_shop": {
+          "type": "link",
+          "settings": {
+            "label": "shop",
+            "link": "shopify://pages/shop",
+            "open_in_new_tab": false
+          }
+        },
+        "link_contact": {
+          "type": "link",
+          "settings": {
+            "label": "contact",
+            "link": "shopify://pages/contact",
+            "open_in_new_tab": false
+          }
+        },
+        "link_discography": {
+          "type": "link",
+          "settings": {
+            "label": "discography",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "link_shows",
+        "link_shop",
+        "link_contact",
+        "link_discography"
+      ],
+      "settings": {
+        "background_color": "#FFFFFF",
+        "button_color": "#0000FF",
+        "button_text_color": "#FFFFFF"
+      }
+    }
+  },
+  "order": ["gufrau_home"]
+}

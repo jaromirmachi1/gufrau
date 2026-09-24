@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GUFRAU — product</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #fff;
+        color: #111;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      .gufrau-product {
+        --gufrau-blue: #0000ff;
+        --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative;
+        min-height: 100dvh;
+        background: #fff;
+        isolation: isolate;
+      }
+      .gufrau-product__home,
+      .gufrau-product__back {
+        position: fixed;
+        top: clamp(1rem, 3vw, 1.75rem);
+        z-index: 5;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        text-decoration: none;
+        color: #111;
+      }
+      .gufrau-product__home { left: clamp(1rem, 3vw, 1.75rem); }
+      .gufrau-product__back { right: clamp(1rem, 3vw, 1.75rem); }
+      .gufrau-product__layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+        gap: clamp(1.5rem, 4vw, 4rem);
+        align-items: start;
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: clamp(4rem, 8vh, 5.5rem) clamp(1rem, 4vw, 2.5rem) 30vh;
+      }
+      .gufrau-product__media-main {
+        aspect-ratio: 1 / 1.15;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 0.875rem;
+      }
+      .gufrau-product__thumbs { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+      .gufrau-product__thumb {
+        width: 4rem;
+        height: 4rem;
+        border: 1px solid transparent;
+        background: #eee;
+        cursor: pointer;
+      }
+      .gufrau-product__thumb.is-active { border-color: #111; }
+      .gufrau-product__info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .gufrau-product__title {
+        margin: 0;
+        font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+      .gufrau-product__price { margin: 0; font-weight: 500; }
+      .gufrau-product__sizes { display: flex; gap: 0.35rem; }
+      .gufrau-product__size {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        min-width: 2.25rem;
+        min-height: 2.25rem;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .gufrau-product__size.is-selected {
+        background: var(--gufrau-blue);
+        color: #fff;
+      }
+      .gufrau-product__buy {
+        appearance: none;
+        border: 0;
+        min-height: 2.75rem;
+        padding: 0.7rem 1.75rem;
+        border-radius: 999px;
+        background: var(--gufrau-blue);
+        color: #fff;
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .gufrau-product__desc {
+        max-width: 36rem;
+        font-size: 0.875rem;
+        line-height: 1.55;
+        color: #333;
+      }
+      .gufrau-product__logo {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        width: 100%;
+        line-height: 0;
+        pointer-events: none;
+      }
+      .gufrau-product__logo-img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      @media (max-width: 899px) {
+        .gufrau-product__layout { grid-template-columns: 1fr; padding-bottom: 24vh; }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="gufrau-product" data-gufrau-product-page>
+      <a class="gufrau-product__home" href="index.html">home</a>
+      <a class="gufrau-product__back" href="shop.html">shop</a>
+      <div class="gufrau-product__layout">
+        <div class="gufrau-product__gallery">
+          <div class="gufrau-product__media-main" id="main">product image</div>
+          <div class="gufrau-product__thumbs">
+            <button type="button" class="gufrau-product__thumb is-active"></button>
+            <button type="button" class="gufrau-product__thumb"></button>
+            <button type="button" class="gufrau-product__thumb"></button>
+          </div>
+        </div>
+        <div class="gufrau-product__info">
+          <h1 class="gufrau-product__title">BOYBAND Longsleeve - Cowboy</h1>
+          <p class="gufrau-product__price">€89,00</p>
+          <div class="gufrau-product__sizes">
+            <button type="button" class="gufrau-product__size" data-gufrau-size>S</button>
+            <button type="button" class="gufrau-product__size" data-gufrau-size>M</button>
+            <button type="button" class="gufrau-product__size is-selected" data-gufrau-size>L</button>
+            <button type="button" class="gufrau-product__size" data-gufrau-size>XL</button>
+          </div>
+          <button type="button" class="gufrau-product__buy">BUY</button>
+          <div class="gufrau-product__desc">
+            Heavyweight longsleeve. Soft hand feel. Made for nights that run long.
+          </div>
+        </div>
+      </div>
+      <div class="gufrau-product__logo" aria-hidden="true">
+        <img class="gufrau-product__logo-img" src="../assets/gfraushows.png" alt="" width="1807" height="425">
+      </div>
+    </section>
+    <script>
+      document.querySelectorAll('[data-gufrau-size]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-gufrau-size]').forEach((b) => b.classList.toggle('is-selected', b === btn));
+        });
+      });
+      document.querySelectorAll('.gufrau-product__thumb').forEach((thumb) => {
+        thumb.addEventListener('click', () => {
+          document.querySelectorAll('.gufrau-product__thumb').forEach((t) => t.classList.toggle('is-active', t === thumb));
+        });
+      });
+    </script>
+  </body>
+</html>

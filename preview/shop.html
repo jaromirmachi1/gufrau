@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GUFRAU — shop</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #fff;
+        color: #111;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      .gufrau-shop {
+        --gufrau-blue: #0000ff;
+        --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative;
+        min-height: 100dvh;
+        background: #fff;
+        isolation: isolate;
+      }
+      .gufrau-shop__home {
+        position: fixed;
+        top: clamp(1rem, 3vw, 1.75rem);
+        left: clamp(1rem, 3vw, 1.75rem);
+        z-index: 5;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        text-decoration: none;
+        color: #111;
+      }
+      .gufrau-shop__grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: clamp(1.5rem, 3vw, 2.75rem) clamp(0.85rem, 1.6vw, 1.5rem);
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: clamp(3.5rem, 7vh, 5rem) clamp(1rem, 3vw, 2rem) 28vh;
+      }
+      .gufrau-shop__card {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .gufrau-shop__media {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1 / 1.05;
+        background: #f3f3f3;
+        text-decoration: none;
+        color: #999;
+        font-size: 0.75rem;
+      }
+      .gufrau-shop__title {
+        margin: 0.65rem 0 0.55rem;
+        font-size: clamp(0.7rem, 0.95vw, 0.8125rem);
+        font-weight: 500;
+      }
+      .gufrau-shop__actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-top: auto;
+      }
+      .gufrau-shop__sizes { display: flex; gap: 0.15rem 0.2rem; }
+      .gufrau-shop__size {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: #111;
+        font: inherit;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        min-width: 1.35rem;
+        min-height: 1.35rem;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .gufrau-shop__size.is-selected {
+        background: var(--gufrau-blue);
+        color: #fff;
+      }
+      .gufrau-shop__buy {
+        appearance: none;
+        border: 0;
+        min-height: 1.65rem;
+        padding: 0.3rem 0.8rem;
+        border-radius: 999px;
+        background: var(--gufrau-blue);
+        color: #fff;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .gufrau-shop__logo {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        width: 100%;
+        line-height: 0;
+        pointer-events: none;
+      }
+      .gufrau-shop__logo-img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      @media (max-width: 1199px) {
+        .gufrau-shop__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      }
+      @media (max-width: 749px) {
+        .gufrau-shop__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="gufrau-shop">
+      <a class="gufrau-shop__home" href="index.html">home</a>
+      <div class="gufrau-shop__grid" id="shop-grid"></div>
+      <div class="gufrau-shop__logo" aria-hidden="true">
+        <img class="gufrau-shop__logo-img" src="../assets/gfraushows.png" alt="" width="1807" height="425">
+      </div>
+    </section>
+    <script>
+      const items = Array.from({ length: 15 }, (_, i) => ({
+        title: 'BOYBAND Longsleeve - Cowboy',
+        sizes: ['S', 'M', 'L', 'XL'],
+        selected: 'L',
+        kind: i % 5 === 4 ? 'lighter' : (i < 5 ? 'longsleeve' : 'hoodie')
+      }));
+      document.getElementById('shop-grid').innerHTML = items.map((item) => `
+        <article class="gufrau-shop__card" data-gufrau-product>
+          <a class="gufrau-shop__media" href="#">${item.kind}</a>
+          <h2 class="gufrau-shop__title">${item.title}</h2>
+          <div class="gufrau-shop__actions">
+            <div class="gufrau-shop__sizes">
+              ${item.sizes.map((s) => `
+                <button type="button" class="gufrau-shop__size${s === item.selected ? ' is-selected' : ''}" data-gufrau-size>${s}</button>
+              `).join('')}
+            </div>
+            <button type="button" class="gufrau-shop__buy">BUY</button>
+          </div>
+        </article>
+      `).join('');
+
+      document.querySelectorAll('[data-gufrau-product]').forEach((card) => {
+        const sizes = card.querySelectorAll('[data-gufrau-size]');
+        sizes.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            sizes.forEach((b) => b.classList.toggle('is-selected', b === btn));
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

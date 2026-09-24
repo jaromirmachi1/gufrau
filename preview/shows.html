@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GUFRAU — shows</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #0a0a0a;
+        color: #fff;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      .gufrau-shows {
+        --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        --gufrau-tickets-bg: #0000ff;
+        position: relative;
+        min-height: 100dvh;
+        height: 100dvh;
+        max-height: 100dvh;
+        width: 100%;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        isolation: isolate;
+        overflow: hidden;
+      }
+      .gufrau-shows__bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+      .gufrau-shows__bg-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+      .gufrau-shows__home {
+        position: absolute;
+        top: clamp(1rem, 3vw, 1.75rem);
+        left: clamp(1rem, 3vw, 1.75rem);
+        z-index: 3;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        text-decoration: none;
+        color: #fff;
+        mix-blend-mode: difference;
+      }
+      .gufrau-shows__stage {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
+        padding: clamp(4rem, 10vh, 6rem) clamp(1rem, 4vw, 2.5rem) 0;
+        overflow: hidden;
+      }
+      .gufrau-shows__list {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 18vh;
+        width: min(100%, 52rem);
+        max-height: calc(100dvh - 28vh);
+        overflow-y: auto;
+        scrollbar-width: none;
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 96%);
+        mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 96%);
+      }
+      .gufrau-shows__list::-webkit-scrollbar { display: none; }
+      .gufrau-shows__row {
+        display: grid;
+        grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+        gap: 0.75rem 1.25rem;
+        align-items: center;
+        padding: 0.55rem 0;
+        font-size: clamp(0.875rem, 1.35vw, 1.0625rem);
+        font-weight: 600;
+      }
+      .gufrau-shows__date { font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .gufrau-shows__location {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .gufrau-shows__tickets {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2rem;
+        padding: 0.4rem 1rem;
+        border-radius: 999px;
+        background: var(--gufrau-tickets-bg);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .gufrau-shows__logo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        width: 100%;
+        line-height: 0;
+        pointer-events: none;
+      }
+      .gufrau-shows__logo-img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      @media (max-width: 749px) {
+        .gufrau-shows__row {
+          grid-template-columns: 1fr auto;
+          grid-template-areas: 'date tickets' 'location tickets';
+          gap: 0.15rem 0.85rem;
+        }
+        .gufrau-shows__date { grid-area: date; font-size: 0.8125rem; }
+        .gufrau-shows__location { grid-area: location; white-space: normal; }
+        .gufrau-shows__tickets { grid-area: tickets; }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="gufrau-shows">
+      <div class="gufrau-shows__bg" aria-hidden="true">
+        <img class="gufrau-shows__bg-img" src="../assets/eshpgufrau.jpg" alt="" width="1728" height="1117">
+      </div>
+      <a class="gufrau-shows__home" href="index.html">home</a>
+      <div class="gufrau-shows__stage">
+        <ul class="gufrau-shows__list" id="shows-list"></ul>
+      </div>
+      <div class="gufrau-shows__logo">
+        <img class="gufrau-shows__logo-img" src="../assets/gfraushows.png" alt="GUFRAU" width="1807" height="425">
+      </div>
+    </section>
+    <script>
+      // Local preview only — live store uses Concert metaobjects
+      const sample = Array.from({ length: 18 }, () => ({
+        date: '30.04.2026',
+        location: 'OSTRAVA - BARRÁK',
+        url: '#'
+      }));
+      const list = document.getElementById('shows-list');
+      list.innerHTML = sample.map((s) => `
+        <li class="gufrau-shows__row">
+          <span class="gufrau-shows__date">${s.date}</span>
+          <span class="gufrau-shows__location">${s.location}</span>
+          <a class="gufrau-shows__tickets" href="${s.url}">TICKETS</a>
+        </li>
+      `).join('');
+    </script>
+  </body>
+</html>

@@ -1,0 +1,506 @@
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign logo_image = section.settings.logo
+  assign buy_label = section.settings.buy_label | default: 'BUY'
+  assign shop_url = pages.shop.url | default: routes.all_products_collection_url
+
+  assign size_option = nil
+  assign size_option_index = nil
+  for option in product.options_with_values
+    assign option_name_down = option.name | downcase
+    if option_name_down == 'size' or option_name_down == 'größe' or option_name_down == 'groesse'
+      assign size_option_index = forloop.index0
+      assign size_option = option
+      break
+    endif
+  endfor
+%}
+
+<section
+  class="gufrau-product"
+  data-gufrau-product-page
+  {{ section.shopify_attributes }}
+>
+  <a class="gufrau-product__home" href="{{ routes.root_url }}">home</a>
+  <a class="gufrau-product__back" href="{{ shop_url }}">shop</a>
+
+  <div class="gufrau-product__layout">
+    <div class="gufrau-product__gallery">
+      {%- if product.media.size > 0 -%}
+        <div class="gufrau-product__media-main">
+          {%- assign featured = current_variant.featured_media | default: product.featured_media -%}
+          {%- if featured != blank -%}
+            {{
+              featured
+              | image_url: width: 1600
+              | image_tag:
+                class: 'gufrau-product__img',
+                widths: '600, 900, 1200, 1600',
+                sizes: '(min-width: 900px) 55vw, 100vw',
+                loading: 'eager',
+                fetchpriority: 'high',
+                id: 'GufrauProductMainImage',
+                alt: featured.alt | default: product.title
+            }}
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="gufrau-product__thumbs" role="list">
+            {%- for media in product.media -%}
+              {%- if media.media_type == 'image' -%}
+                <button
+                  type="button"
+                  class="gufrau-product__thumb{% if media.id == featured.id %} is-active{% endif %}"
+                  data-gufrau-thumb
+                  data-image-url="{{ media | image_url: width: 1600 }}"
+                  aria-label="{{ media.alt | default: product.title | escape }}"
+                >
+                  {{
+                    media
+                    | image_url: width: 240
+                    | image_tag:
+                      class: 'gufrau-product__thumb-img',
+                      widths: '120, 180, 240',
+                      sizes: '64px',
+                      loading: 'lazy',
+                      alt: ''
+                  }}
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'gufrau-product__img' }}
+      {%- endif -%}
+    </div>
+
+    <div class="gufrau-product__info">
+      <h1 class="gufrau-product__title">{{ product.title | escape }}</h1>
+
+      <p class="gufrau-product__price" data-gufrau-price>
+        {{ current_variant.price | money }}
+      </p>
+
+      {%- if size_option != blank -%}
+        <div class="gufrau-product__sizes" role="group" aria-label="Size">
+          {%- for value in size_option.values -%}
+            {%- liquid
+              assign matching_variant = nil
+              for variant in product.variants
+                if variant.options[size_option_index] == value and variant.available
+                  assign matching_variant = variant
+                  break
+                endif
+              endfor
+              if matching_variant == blank
+                for variant in product.variants
+                  if variant.options[size_option_index] == value
+                    assign matching_variant = variant
+                    break
+                  endif
+                endfor
+              endif
+
+              assign is_selected = false
+              if current_variant.options[size_option_index] == value
+                assign is_selected = true
+              endif
+            -%}
+            <button
+              type="button"
+              class="gufrau-product__size{% if is_selected %} is-selected{% endif %}{% if matching_variant == blank or matching_variant.available == false %} is-unavailable{% endif %}"
+              data-gufrau-size
+              data-variant-id="{{ matching_variant.id }}"
+              data-price="{{ matching_variant.price | money }}"
+              data-image="{% if matching_variant.featured_media %}{{ matching_variant.featured_media | image_url: width: 1600 }}{% endif %}"
+              {% if matching_variant == blank or matching_variant.available == false %}
+                disabled
+              {% endif %}
+              aria-pressed="{% if is_selected %}true{% else %}false{% endif %}"
+            >
+              {{ value | escape }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- form 'product', product, class: 'gufrau-product__form' -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ current_variant.id }}"
+          data-gufrau-variant-input
+        >
+        <button
+          type="submit"
+          class="gufrau-product__buy"
+          {% unless current_variant.available %}disabled{% endunless %}
+          data-gufrau-buy
+        >
+          {{ buy_label | escape }}
+        </button>
+      {%- endform -%}
+
+      {%- if product.description != blank -%}
+        <div class="gufrau-product__desc rte">
+          {{ product.description }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="gufrau-product__logo" aria-hidden="true">
+    {%- if logo_image != blank -%}
+      {{
+        logo_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'gufrau-product__logo-img',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          sizes: '100vw',
+          loading: 'eager',
+          alt: ''
+      }}
+    {%- else -%}
+      <img
+        class="gufrau-product__logo-img"
+        src="{{ 'gfraushows.png' | asset_url }}"
+        alt=""
+        width="1807"
+        height="425"
+        loading="eager"
+      >
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (() => {
+    const root = document.querySelector('[data-gufrau-product-page]');
+    if (!root) return;
+
+    const input = root.querySelector('[data-gufrau-variant-input]');
+    const buy = root.querySelector('[data-gufrau-buy]');
+    const price = root.querySelector('[data-gufrau-price]');
+    const mainImage = root.querySelector('#GufrauProductMainImage');
+    const sizes = root.querySelectorAll('[data-gufrau-size]');
+
+    sizes.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.disabled) return;
+        sizes.forEach((b) => {
+          b.classList.toggle('is-selected', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+        const id = btn.getAttribute('data-variant-id');
+        const nextPrice = btn.getAttribute('data-price');
+        const nextImage = btn.getAttribute('data-image');
+        if (id && input) input.value = id;
+        if (buy) buy.disabled = false;
+        if (price && nextPrice) price.textContent = nextPrice;
+        if (mainImage && nextImage) mainImage.src = nextImage;
+      });
+    });
+
+    root.querySelectorAll('[data-gufrau-thumb]').forEach((thumb) => {
+      thumb.addEventListener('click', () => {
+        const url = thumb.getAttribute('data-image-url');
+        if (mainImage && url) mainImage.src = url;
+        root.querySelectorAll('[data-gufrau-thumb]').forEach((t) => {
+          t.classList.toggle('is-active', t === thumb);
+        });
+      });
+    });
+  })();
+</script>
+
+{% stylesheet %}
+  body:has(.gufrau-product) {
+    background: #ffffff;
+    color: #111;
+  }
+
+  body:has(.gufrau-product) #header-group:empty,
+  body:has(.gufrau-product) footer:has(.shopify-section-group-footer-group:empty) {
+    display: none;
+  }
+
+  .gufrau-product {
+    --gufrau-blue: #0000ff;
+    --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    background: #fff;
+    isolation: isolate;
+  }
+
+  .gufrau-product__home,
+  .gufrau-product__back {
+    position: fixed;
+    top: clamp(1rem, 3vw, 1.75rem);
+    z-index: 5;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: #111;
+    transition: opacity 180ms var(--gufrau-ease);
+  }
+
+  .gufrau-product__home {
+    left: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .gufrau-product__back {
+    right: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .gufrau-product__home:hover,
+  .gufrau-product__back:hover {
+    opacity: 0.6;
+  }
+
+  .gufrau-product__layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: start;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vh, 5.5rem) clamp(1rem, 4vw, 2.5rem) 30vh;
+  }
+
+  .gufrau-product__gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .gufrau-product__media-main {
+    aspect-ratio: 1 / 1.15;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+
+  .gufrau-product__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .gufrau-product__thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .gufrau-product__thumb {
+    appearance: none;
+    border: 1px solid transparent;
+    background: #f5f5f5;
+    padding: 0;
+    width: 4rem;
+    height: 4rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 160ms var(--gufrau-ease);
+  }
+
+  .gufrau-product__thumb.is-active,
+  .gufrau-product__thumb:hover {
+    border-color: #111;
+  }
+
+  .gufrau-product__thumb-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gufrau-product__info {
+    position: sticky;
+    top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  .gufrau-product__title {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .gufrau-product__price {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .gufrau-product__sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.25rem;
+  }
+
+  .gufrau-product__size {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: #111;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+      background-color 160ms var(--gufrau-ease),
+      color 160ms var(--gufrau-ease),
+      transform 160ms var(--gufrau-ease);
+  }
+
+  .gufrau-product__size.is-selected {
+    background: var(--gufrau-blue);
+    color: #fff;
+  }
+
+  .gufrau-product__size.is-unavailable {
+    opacity: 0.28;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  .gufrau-product__size:not(.is-unavailable):hover {
+    transform: scale(1.05);
+  }
+
+  .gufrau-product__form {
+    margin: 0.5rem 0 0;
+  }
+
+  .gufrau-product__buy {
+    appearance: none;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.7rem 1.75rem;
+    border-radius: 999px;
+    background: var(--gufrau-blue);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      transform 160ms var(--gufrau-ease),
+      filter 160ms var(--gufrau-ease);
+  }
+
+  .gufrau-product__buy:hover:not(:disabled) {
+    filter: brightness(1.08);
+    transform: scale(1.02);
+  }
+
+  .gufrau-product__buy:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .gufrau-product__buy:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .gufrau-product__desc {
+    margin-top: 0.75rem;
+    max-width: 36rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #333;
+  }
+
+  .gufrau-product__desc :first-child {
+    margin-top: 0;
+  }
+
+  .gufrau-product__desc :last-child {
+    margin-bottom: 0;
+  }
+
+  .gufrau-product__logo {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    line-height: 0;
+    pointer-events: none;
+  }
+
+  .gufrau-product__logo-img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 899px) {
+    .gufrau-product__layout {
+      grid-template-columns: 1fr;
+      padding-bottom: 24vh;
+    }
+
+    .gufrau-product__info {
+      position: static;
+    }
+
+    .gufrau-product__media-main {
+      aspect-ratio: 1 / 1.05;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "GUFRAU product",
+  "tag": "div",
+  "class": "gufrau-product-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "buy_label",
+      "label": "Buy button label",
+      "default": "BUY"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Bottom logo",
+      "info": "Defaults to gfraushows.png if empty"
+    }
+  ]
+}
+{% endschema %}

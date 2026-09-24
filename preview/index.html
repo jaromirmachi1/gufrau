@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GUFRAU — homepage preview</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #fff;
+        color: #111;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      .gufrau-home {
+        --gufrau-btn-bg: #0000ff;
+        --gufrau-btn-text: #ffffff;
+        --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        min-height: 100dvh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        overflow: visible;
+        width: 100%;
+        isolation: isolate;
+      }
+      .gufrau-home__nav {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.75rem, 2.2vw, 1.75rem);
+        padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+        pointer-events: none;
+        transform: translateY(-20%);
+      }
+      .gufrau-home__nav .gufrau-home__btn {
+        pointer-events: auto;
+      }
+      .gufrau-home__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding: 0.7rem 1.55rem;
+        border-radius: 999px;
+        background: var(--gufrau-btn-bg);
+        color: var(--gufrau-btn-text);
+        font-size: clamp(0.95rem, 1.4vw, 1.125rem);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1;
+        text-decoration: none;
+        text-transform: lowercase;
+        white-space: nowrap;
+        transition: transform 180ms var(--gufrau-ease), filter 180ms var(--gufrau-ease);
+        animation: gufrau-btn-in 420ms var(--gufrau-ease) both;
+        animation-delay: calc(80ms + var(--i, 0) * 50ms);
+      }
+      .gufrau-home__btn:hover { filter: brightness(1.08); transform: scale(1.02); }
+      .gufrau-home__btn:active { transform: scale(0.97); }
+      .gufrau-home__logo {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        pointer-events: none;
+        line-height: 0;
+      }
+      .gufrau-home__logo-img {
+        display: block;
+        width: 104%;
+        max-width: none;
+        height: auto;
+        margin: 0 0 -1% -2%;
+        -webkit-mask-image:
+          linear-gradient(to right, transparent 0%, #000 2%, #000 98%, transparent 100%),
+          linear-gradient(to bottom, transparent 0%, #000 3%, #000 97%, transparent 100%);
+        mask-image:
+          linear-gradient(to right, transparent 0%, #000 2%, #000 98%, transparent 100%),
+          linear-gradient(to bottom, transparent 0%, #000 3%, #000 97%, transparent 100%);
+        -webkit-mask-composite: source-in;
+        mask-composite: intersect;
+      }
+      @keyframes gufrau-btn-in {
+        from { opacity: 0; transform: translateY(8px) scale(0.97); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @media (max-width: 749px) {
+        .gufrau-home__nav { gap: 0.65rem 0.75rem; padding-inline: 1rem; }
+        .gufrau-home__btn { min-height: 2.5rem; padding: 0.65rem 1.2rem; font-size: 0.9375rem; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .gufrau-home__btn { animation: none; transition: none; }
+      }
+      .note {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 10;
+        font-size: 12px;
+        color: #666;
+        background: rgba(255,255,255,0.9);
+        padding: 6px 10px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="note">Local preview — not the live Shopify store</p>
+    <section class="gufrau-home">
+      <nav class="gufrau-home__nav" aria-label="Main navigation">
+        <a class="gufrau-home__btn" style="--i:0" href="shows.html">shows</a>
+        <a class="gufrau-home__btn" style="--i:1" href="shop.html">shop</a>
+        <a class="gufrau-home__btn" style="--i:2" href="#">contact</a>
+        <a class="gufrau-home__btn" style="--i:3" href="#">discography</a>
+      </nav>
+      <div class="gufrau-home__logo">
+        <img
+          class="gufrau-home__logo-img"
+          src="gufrau-logo-home.png"
+          alt="GUFRAU"
+          width="2911"
+          height="715"
+        >
+      </div>
+    </section>
+  </body>
+</html>
