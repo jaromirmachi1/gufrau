@@ -212,33 +212,33 @@
     justify-content: center;
     min-height: 2.75rem;
     padding: 0.7rem 1.45rem;
-    border-radius: 999px;
-    background: #e8e8e8;
-    box-shadow:
-      0 10px 24px rgba(0, 0, 0, 0.12),
-      0 2px 6px rgba(0, 0, 0, 0.06);
+    background: transparent;
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: lowercase;
     text-decoration: none;
-    color: #6b6b6b;
+    color: #b0b0b0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
     transition:
       transform 180ms var(--gufrau-ease),
-      box-shadow 180ms var(--gufrau-ease),
-      color 180ms var(--gufrau-ease);
+      text-shadow 180ms var(--gufrau-ease),
+      color 180ms var(--gufrau-ease),
+      letter-spacing 180ms var(--gufrau-ease);
   }
 
   .gufrau-shop__home:hover {
-    color: #555;
-    transform: translateY(-1px);
-    box-shadow:
-      0 14px 28px rgba(0, 0, 0, 0.14),
-      0 3px 8px rgba(0, 0, 0, 0.08);
+    color: #7a7a7a;
+    transform: translateY(-2px) scale(1.04);
+    letter-spacing: 0.07em;
+    text-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.28),
+      0 2px 4px rgba(0, 0, 0, 0.14);
   }
 
   .gufrau-shop__home:active {
-    transform: scale(0.97);
+    transform: translateY(0) scale(0.97);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
   }
 
   .gufrau-shop__grid {
