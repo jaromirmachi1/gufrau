@@ -123,10 +123,10 @@
     {%- else -%}
       <img
         class="gufrau-shows__logo-img"
-        src="{{ 'gfraushows.png' | asset_url }}"
+        src="{{ 'gufrau-shows-logo.png' | asset_url }}"
         alt="{{ shop.name | escape }}"
-        width="1807"
-        height="425"
+        width="1024"
+        height="240"
         loading="eager"
       >
     {%- endif -%}
@@ -361,6 +361,7 @@
     max-width: none;
     height: auto;
     margin: 0 0 0 -2.5%;
+    opacity: 0.8;
   }
 
   @media screen and (max-width: 749px) {
