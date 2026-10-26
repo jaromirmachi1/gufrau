@@ -26,12 +26,20 @@
         position: fixed;
         top: clamp(1rem, 3vw, 1.75rem);
         z-index: 5;
-        font-size: 0.8125rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding: 0.7rem 1.45rem;
+        border-radius: 999px;
+        background: #e8e8e8;
+        box-shadow: 0 10px 24px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.06);
+        font-size: clamp(1rem, 1.5vw, 1.125rem);
         font-weight: 600;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.04em;
         text-transform: lowercase;
         text-decoration: none;
-        color: #111;
+        color: #6b6b6b;
       }
       .gufrau-product__home { left: clamp(1rem, 3vw, 1.75rem); }
       .gufrau-product__back { right: clamp(1rem, 3vw, 1.75rem); }
