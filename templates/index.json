@@ -48,7 +48,7 @@
       ],
       "settings": {
         "background_color": "#FFFFFF",
-        "button_color": "#0000FF",
+        "button_color": "#000000",
         "button_text_color": "#FFFFFF"
       }
     }
