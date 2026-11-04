@@ -12,7 +12,7 @@
   assign company_dic = section.settings.company_dic
   assign shop_email = section.settings.shop_email | default: 'management@gufrau.com'
   assign shop_phone = section.settings.shop_phone
-  assign legal_label = section.settings.legal_label | default: 'Právní informace'
+  assign legal_label = section.settings.legal_label | default: 'Legal'
 %}
 
 <section
@@ -68,38 +68,56 @@
         </div>
       </div>
 
+      {%- liquid
+        if shop.terms_of_service != blank
+          assign terms_url = shop.terms_of_service.url
+        elsif pages['terms-of-service'].url != blank
+          assign terms_url = pages['terms-of-service'].url
+        else
+          assign terms_url = '/pages/terms-of-service'
+        endif
+
+        if shop.shipping_policy != blank
+          assign shipping_url = shop.shipping_policy.url
+        elsif pages.shipping.url != blank
+          assign shipping_url = pages.shipping.url
+        elsif pages['shipping-policy'].url != blank
+          assign shipping_url = pages['shipping-policy'].url
+        else
+          assign shipping_url = '/pages/shipping'
+        endif
+
+        if shop.refund_policy != blank
+          assign refund_url = shop.refund_policy.url
+        elsif pages['refund-policy'].url != blank
+          assign refund_url = pages['refund-policy'].url
+        else
+          assign refund_url = '/pages/refund-policy'
+        endif
+
+        if shop.privacy_policy != blank
+          assign privacy_url = shop.privacy_policy.url
+        elsif pages['privacy-policy'].url != blank
+          assign privacy_url = pages['privacy-policy'].url
+        else
+          assign privacy_url = '/pages/privacy-policy'
+        endif
+      -%}
+
       <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="{{ legal_label | escape }}">
         <h2 class="gufrau-contact__label">{{ legal_label | escape }}</h2>
         <ul class="gufrau-contact__legal-list">
           <li>
-            <a class="gufrau-contact__legal-link" href="{% if pages['obchodni-podminky'].url != blank %}{{ pages['obchodni-podminky'].url }}{% else %}/pages/obchodni-podminky{% endif %}">
-              Obchodní podmínky
-            </a>
+            <a class="gufrau-contact__legal-link" href="{{ terms_url }}">Terms of service</a>
           </li>
           <li>
-            <a class="gufrau-contact__legal-link" href="{% if pages['reklamacni-rad'].url != blank %}{{ pages['reklamacni-rad'].url }}{% else %}/pages/reklamacni-rad{% endif %}">
-              Reklamační řád
-            </a>
+            <a class="gufrau-contact__legal-link" href="{{ shipping_url }}">Shipping</a>
           </li>
           <li>
-            <a class="gufrau-contact__legal-link" href="{% if pages['odstoupeni-od-smlouvy'].url != blank %}{{ pages['odstoupeni-od-smlouvy'].url }}{% else %}/pages/odstoupeni-od-smlouvy{% endif %}">
-              Odstoupení od smlouvy
-            </a>
+            <a class="gufrau-contact__legal-link" href="{{ refund_url }}">Refund policy</a>
           </li>
           <li>
-            <a class="gufrau-contact__legal-link" href="{% if pages['ochrana-osobnich-udaju'].url != blank %}{{ pages['ochrana-osobnich-udaju'].url }}{% else %}/pages/ochrana-osobnich-udaju{% endif %}">
-              Ochrana osobních údajů
-            </a>
-          </li>
-          <li>
-            <a class="gufrau-contact__legal-link" href="{% if pages['cookies'].url != blank %}{{ pages['cookies'].url }}{% else %}/pages/cookies{% endif %}">
-              Zásady cookies
-            </a>
-          </li>
-          <li>
-            <a class="gufrau-contact__legal-link" href="{% if pages['mimosoudni-reseni-sporu'].url != blank %}{{ pages['mimosoudni-reseni-sporu'].url }}{% else %}/pages/mimosoudni-reseni-sporu{% endif %}">
-              Mimosoudní řešení sporů
-            </a>
+            <a class="gufrau-contact__legal-link" href="{{ privacy_url }}">Privacy policy</a>
           </li>
         </ul>
       </nav>

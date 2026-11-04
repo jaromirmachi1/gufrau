@@ -37,34 +37,32 @@
       .gufrau-cart__shop { right: clamp(6.75rem, 14vw, 9.5rem); }
       .gufrau-cart-link {
         position: fixed;
-        top: clamp(1rem, 3vw, 1.75rem);
+        top: clamp(0.65rem, 2.2vw, 1.25rem);
         right: clamp(1rem, 3vw, 1.75rem);
         z-index: 5;
         display: inline-flex;
+        flex-direction: column;
         align-items: center;
-        gap: 0.45rem;
+        justify-content: center;
+        gap: 0.05rem;
         min-height: 2.75rem;
-        padding: 0.65rem 1.2rem;
-        background: #000;
-        color: #fff;
+        padding: 0.35rem 1.45rem 0.55rem;
+        background: transparent;
+        color: #b0b0b0;
         text-decoration: none;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
         font-weight: 600;
         letter-spacing: 0.04em;
         text-transform: lowercase;
+        font-size: clamp(1rem, 1.5vw, 1.125rem);
       }
       .gufrau-cart-link__count {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 1.35rem;
-        height: 1.35rem;
-        padding: 0 0.3rem;
-        border-radius: 999px;
-        background: #fff;
-        color: #000;
-        font-size: 0.78rem;
+        display: block;
+        font-size: 0.72em;
         font-weight: 700;
+        line-height: 1;
       }
+      .gufrau-cart-link__label { display: block; line-height: 1; }
       .gufrau-cart__layout {
         display: grid;
         grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.7fr);
@@ -193,8 +191,8 @@
       <a class="gufrau-cart__home" href="index.html">home</a>
       <a class="gufrau-cart__shop" href="shop.html">shop</a>
       <a class="gufrau-cart-link" href="cart.html">
-        <span class="gufrau-cart-link__label">cart</span>
         <span class="gufrau-cart-link__count">1</span>
+        <span class="gufrau-cart-link__label">cart</span>
       </a>
       <div class="gufrau-cart__layout">
         <div class="gufrau-cart__main">

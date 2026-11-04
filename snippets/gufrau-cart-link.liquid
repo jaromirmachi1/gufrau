@@ -1,5 +1,5 @@
 {% comment %}
-  Minimal cart link with live item count for GUFRAU pages.
+  Cart link matching GUFRAU nav pills, with item count stacked above the label.
 {% endcomment %}
 
 <a
@@ -8,7 +8,6 @@
   data-gufrau-cart-link
   aria-label="Cart{% if cart.item_count > 0 %}, {{ cart.item_count }} items{% endif %}"
 >
-  <span class="gufrau-cart-link__label">cart</span>
   <span
     class="gufrau-cart-link__count{% if cart.item_count == 0 %} is-empty{% endif %}"
     data-gufrau-cart-count
@@ -16,61 +15,68 @@
   >
     {{- cart.item_count -}}
   </span>
+  <span class="gufrau-cart-link__label">cart</span>
 </a>
 
 {% stylesheet %}
   .gufrau-cart-link {
     --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
     position: fixed;
-    top: clamp(1rem, 3vw, 1.75rem);
+    top: clamp(0.65rem, 2.2vw, 1.25rem);
     right: clamp(1rem, 3vw, 1.75rem);
     z-index: 5;
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.45rem;
+    justify-content: center;
+    gap: 0.05rem;
     min-height: 2.75rem;
-    padding: 0.65rem 1.2rem;
-    background: #000;
-    color: #fff;
+    padding: 0.35rem 1.45rem 0.55rem;
+    background: transparent;
+    color: #b0b0b0;
     text-decoration: none;
-    font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: lowercase;
     line-height: 1;
     transition:
       transform 180ms var(--gufrau-ease),
-      background-color 180ms var(--gufrau-ease),
-      color 180ms var(--gufrau-ease);
+      text-shadow 180ms var(--gufrau-ease),
+      color 180ms var(--gufrau-ease),
+      letter-spacing 180ms var(--gufrau-ease);
   }
 
   .gufrau-cart-link:hover {
-    transform: translateY(-2px) scale(1.03);
+    color: #7a7a7a;
+    transform: translateY(-2px) scale(1.04);
+    letter-spacing: 0.07em;
+    text-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.28),
+      0 2px 4px rgba(0, 0, 0, 0.14);
   }
 
   .gufrau-cart-link:active {
     transform: translateY(0) scale(0.97);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
   }
 
   .gufrau-cart-link__count {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.35rem;
-    height: 1.35rem;
-    padding: 0 0.3rem;
-    border-radius: 999px;
-    background: #fff;
-    color: #000;
-    font-size: 0.78rem;
+    display: block;
+    font-size: 0.72em;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0;
+    letter-spacing: 0.02em;
+    line-height: 1;
   }
 
   .gufrau-cart-link__count.is-empty {
-    opacity: 0.35;
+    opacity: 0.4;
   }
 
+  .gufrau-cart-link__label {
+    display: block;
+    line-height: 1;
+  }
 {% endstylesheet %}
-

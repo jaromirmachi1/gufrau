@@ -6,7 +6,7 @@
 {% liquid
   assign handle = page.handle | downcase
   assign is_legal = false
-  if handle == 'obchodni-podminky' or handle == 'reklamacni-rad' or handle == 'odstoupeni-od-smlouvy' or handle == 'ochrana-osobnich-udaju' or handle == 'cookies' or handle == 'mimosoudni-reseni-sporu'
+  if handle == 'terms-of-service' or handle == 'shipping' or handle == 'shipping-policy' or handle == 'refund-policy' or handle == 'privacy-policy' or handle == 'obchodni-podminky' or handle == 'reklamacni-rad' or handle == 'odstoupeni-od-smlouvy' or handle == 'ochrana-osobnich-udaju' or handle == 'cookies' or handle == 'mimosoudni-reseni-sporu'
     assign is_legal = true
   endif
 %}
@@ -57,7 +57,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Auto-loads Shop, Shows, Contact, Discography, or Czech legal pages (obchodni-podminky, reklamacni-rad, odstoupeni-od-smlouvy, ochrana-osobnich-udaju, cookies, mimosoudni-reseni-sporu). Other pages show title + content."
+      "content": "Auto-loads Shop, Shows, Contact, Discography, or legal pages (terms-of-service, shipping, refund-policy, privacy-policy). Other pages show title + content."
     },
 
     {
