@@ -5,6 +5,10 @@
 
 {% liquid
   assign handle = page.handle | downcase
+  assign is_legal = false
+  if handle == 'obchodni-podminky' or handle == 'reklamacni-rad' or handle == 'odstoupeni-od-smlouvy' or handle == 'ochrana-osobnich-udaju' or handle == 'cookies' or handle == 'mimosoudni-reseni-sporu'
+    assign is_legal = true
+  endif
 %}
 
 {% case handle %}
@@ -17,20 +21,25 @@
   {% when 'discography' %}
     {% render 'gufrau-discography' %}
   {% else %}
-    <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-    <div class="section page-width-content color-{{ section.settings.color_scheme }}">
-      <div
-        class="spacing-style layout-panel-flex layout-panel-flex--column section-content-wrapper mobile-column"
-        style="
-          {% render 'layout-panel-style', settings: section.settings %}
-          {% render 'spacing-style', settings: section.settings %}
-        "
-      >
-        <h1 class="gufrau-page-fallback__title">{{ page.title | escape }}</h1>
-        <div class="rte">{{ page.content }}</div>
+    {% if is_legal %}
+      {% render 'gufrau-legal' %}
+    {% else %}
+      <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+      <div class="section page-width-content color-{{ section.settings.color_scheme }}">
+        <div
+          class="spacing-style layout-panel-flex layout-panel-flex--column section-content-wrapper mobile-column"
+          style="
+            {% render 'layout-panel-style', settings: section.settings %}
+            {% render 'spacing-style', settings: section.settings %}
+          "
+        >
+          <h1 class="gufrau-page-fallback__title">{{ page.title | escape }}</h1>
+          <div class="rte">{{ page.content }}</div>
+        </div>
       </div>
-    </div>
+    {% endif %}
 {% endcase %}
+
 
 {% stylesheet %}
   .gufrau-page-fallback__title {
@@ -48,8 +57,9 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Auto-loads Shop, Shows, Contact, or Discography when the page handle matches. Other pages show the normal title and content."
+      "content": "Auto-loads Shop, Shows, Contact, Discography, or Czech legal pages (obchodni-podminky, reklamacni-rad, odstoupeni-od-smlouvy, ochrana-osobnich-udaju, cookies, mimosoudni-reseni-sporu). Other pages show title + content."
     },
+
     {
       "type": "color_scheme",
       "id": "color_scheme",

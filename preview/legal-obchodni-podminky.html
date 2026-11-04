@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GUFRAU — Obchodní podmínky</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #fff;
+        color: #0b1f7a;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      .gufrau-legal {
+        --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative;
+        min-height: 100dvh;
+        background: #fff;
+      }
+      .gufrau-legal__home,
+      .gufrau-legal__back {
+        position: absolute;
+        top: clamp(1rem, 3vw, 1.75rem);
+        z-index: 3;
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+        padding: 0.7rem 1.45rem;
+        font-size: clamp(1rem, 1.5vw, 1.125rem);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: lowercase;
+        text-decoration: none;
+        color: #b0b0b0;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        transition: transform 180ms var(--gufrau-ease), color 180ms var(--gufrau-ease), letter-spacing 180ms var(--gufrau-ease);
+      }
+      .gufrau-legal__home { left: clamp(1rem, 3vw, 1.75rem); }
+      .gufrau-legal__back { right: clamp(1rem, 3vw, 1.75rem); }
+      .gufrau-legal__home:hover,
+      .gufrau-legal__back:hover {
+        color: #7a7a7a;
+        transform: translateY(-2px) scale(1.04);
+        letter-spacing: 0.07em;
+      }
+      .gufrau-legal__content {
+        width: min(42rem, 100%);
+        margin: 0 auto;
+        padding: clamp(5rem, 12vh, 7rem) clamp(1.25rem, 5vw, 3.5rem) clamp(3rem, 8vh, 5rem);
+      }
+      .gufrau-legal__title {
+        margin: 0 0 1.75rem;
+        font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+      }
+      .gufrau-legal__body {
+        font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+        font-weight: 500;
+        line-height: 1.55;
+      }
+      .gufrau-legal__body h2 {
+        margin: 1.75rem 0 0.55rem;
+        font-size: clamp(1.1rem, 2vw, 1.25rem);
+        font-weight: 700;
+      }
+      .gufrau-legal__body p { margin: 0 0 0.85rem; }
+      .gufrau-legal__body a { color: inherit; }
+      .gufrau-legal__note {
+        margin: 0 0 1.5rem;
+        padding: 0.85rem 1rem;
+        border-left: 3px solid currentColor;
+        opacity: 0.85;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="gufrau-legal">
+      <a class="gufrau-legal__home" href="index.html">home</a>
+      <a class="gufrau-legal__back" href="contact.html">contact</a>
+      <article class="gufrau-legal__content">
+        <h1 class="gufrau-legal__title">Obchodní podmínky</h1>
+        <div class="gufrau-legal__body">
+          <p class="gufrau-legal__note">Šablona pro český e-shop. Doplňte údaje prodávajícího a nechte text zkontrolovat právníkem před ostrým provozem.</p>
+          <h2>1. Úvodní ustanovení</h2>
+          <p>Tyto všeobecné obchodní podmínky upravují vztahy mezi prodávajícím a kupujícím při nákupu zboží prostřednictvím internetového obchodu.</p>
+          <p><strong>Prodávající:</strong> [DOPLŇTE obchodní firmu / jméno], se sídlem [DOPLŇTE adresu], IČO: [DOPLŇTE], DIČ: [DOPLŇTE].</p>
+          <h2>2. Objednávka a uzavření smlouvy</h2>
+          <p>Smlouva je uzavřena potvrzením objednávky prodávajícím (e-mailem).</p>
+          <h2>3. Cena, platba a doprava</h2>
+          <p>Ceny jsou uvedeny včetně DPH. Doprava a platba dle košíku před dokončením objednávky.</p>
+          <h2>4. Související dokumenty</h2>
+          <p>
+            <a href="legal-reklamacni-rad.html">Reklamační řád</a> ·
+            <a href="legal-odstoupeni.html">Odstoupení od smlouvy</a> ·
+            <a href="legal-gdpr.html">Ochrana osobních údajů</a> ·
+            <a href="legal-adr.html">Mimosoudní řešení sporů</a>
+          </p>
+        </div>
+      </article>
+    </section>
+  </body>
+</html>

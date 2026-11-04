@@ -1,0 +1,182 @@
+{% liquid
+  assign text_color = '#0B1F7A'
+  assign handle = page.handle | downcase
+  assign has_custom = false
+  if page.content != blank
+    assign has_custom = true
+  endif
+%}
+
+<section
+  class="gufrau-legal"
+  style="--gufrau-legal-text: {{ text_color }};"
+>
+  <a class="gufrau-legal__home" href="{{ routes.root_url }}">home</a>
+  <a class="gufrau-legal__back" href="{% if pages.contact.url != blank %}{{ pages.contact.url }}{% else %}/pages/contact{% endif %}">contact</a>
+
+  <article class="gufrau-legal__content">
+    <h1 class="gufrau-legal__title">{{ page.title | escape }}</h1>
+
+    {%- if has_custom -%}
+      <div class="gufrau-legal__body rte">{{ page.content }}</div>
+    {%- else -%}
+      <div class="gufrau-legal__body">
+        {% render 'gufrau-legal-content', handle: handle %}
+      </div>
+    {%- endif -%}
+  </article>
+</section>
+
+{% stylesheet %}
+  body:has(.gufrau-legal) {
+    background: #ffffff;
+    color: var(--gufrau-legal-text, #0b1f7a);
+  }
+
+  body:has(.gufrau-legal) #header-group:empty,
+  body:has(.gufrau-legal) footer:has(.shopify-section-group-footer-group:empty) {
+    display: none;
+  }
+
+  body:has(.gufrau-legal) .content-for-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  body:has(.gufrau-legal) .content-for-layout > .shopify-section:has(.gufrau-legal) {
+    flex: 1;
+    display: flex;
+  }
+
+  .gufrau-legal {
+    --gufrau-legal-text: #0b1f7a;
+    --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    flex: 1;
+    width: 100%;
+    min-height: 100dvh;
+    background: #fff;
+    color: var(--gufrau-legal-text);
+  }
+
+  .gufrau-legal__home,
+  .gufrau-legal__back {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.75rem);
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.7rem 1.45rem;
+    background: transparent;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: #b0b0b0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    transition:
+      transform 180ms var(--gufrau-ease),
+      text-shadow 180ms var(--gufrau-ease),
+      color 180ms var(--gufrau-ease),
+      letter-spacing 180ms var(--gufrau-ease);
+  }
+
+  .gufrau-legal__home {
+    left: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .gufrau-legal__back {
+    right: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .gufrau-legal__home:hover,
+  .gufrau-legal__back:hover {
+    color: #7a7a7a;
+    transform: translateY(-2px) scale(1.04);
+    letter-spacing: 0.07em;
+    text-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.28),
+      0 2px 4px rgba(0, 0, 0, 0.14);
+  }
+
+  .gufrau-legal__home:active,
+  .gufrau-legal__back:active {
+    transform: translateY(0) scale(0.97);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  }
+
+  .gufrau-legal__content {
+    position: relative;
+    z-index: 2;
+    width: min(42rem, 100%);
+    margin: 0 auto;
+    padding: clamp(5rem, 12vh, 7rem) clamp(1.25rem, 5vw, 3.5rem) clamp(3rem, 8vh, 5rem);
+  }
+
+  .gufrau-legal__title {
+    margin: 0 0 clamp(1.5rem, 3vh, 2.25rem);
+    font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .gufrau-legal__body {
+    font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.55;
+  }
+
+  .gufrau-legal__body > *:first-child {
+    margin-top: 0;
+  }
+
+  .gufrau-legal__body h2 {
+    margin: 1.75rem 0 0.55rem;
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .gufrau-legal__body h3 {
+    margin: 1.25rem 0 0.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .gufrau-legal__body p,
+  .gufrau-legal__body ul,
+  .gufrau-legal__body ol {
+    margin: 0 0 0.85rem;
+  }
+
+  .gufrau-legal__body ul,
+  .gufrau-legal__body ol {
+    padding-left: 1.25rem;
+  }
+
+  .gufrau-legal__body li {
+    margin-bottom: 0.35rem;
+  }
+
+  .gufrau-legal__body a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .gufrau-legal__note {
+    margin: 0 0 1.5rem;
+    padding: 0.85rem 1rem;
+    border-left: 3px solid currentColor;
+    opacity: 0.85;
+    font-size: 0.9em;
+  }
+{% endstylesheet %}

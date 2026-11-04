@@ -5,6 +5,14 @@
   assign booking_email = section.settings.booking_email | default: 'booking@gufrau.com'
   assign management_label = section.settings.management_label | default: 'Management'
   assign management_email = section.settings.management_email | default: 'management@gufrau.com'
+  assign seller_label = section.settings.seller_label | default: 'Provozovatel e-shopu'
+  assign company_name = section.settings.company_name
+  assign company_address = section.settings.company_address
+  assign company_ico = section.settings.company_ico
+  assign company_dic = section.settings.company_dic
+  assign shop_email = section.settings.shop_email
+  assign shop_phone = section.settings.shop_phone
+  assign legal_label = section.settings.legal_label | default: 'Právní informace'
 %}
 
 <section
@@ -28,6 +36,80 @@
         {{ management_email | escape }}
       </a>
     </div>
+
+    <div class="gufrau-contact__block gufrau-contact__block--seller">
+      <h2 class="gufrau-contact__label">{{ seller_label | escape }}</h2>
+      <div class="gufrau-contact__seller">
+        {%- if company_name != blank -%}
+          <p>{{ company_name | escape }}</p>
+        {%- else -%}
+          <p class="gufrau-contact__placeholder">[DOPLŇTE obchodní firmu / jméno]</p>
+        {%- endif -%}
+        {%- if company_address != blank -%}
+          <p>{{ company_address | escape | newline_to_br }}</p>
+        {%- else -%}
+          <p class="gufrau-contact__placeholder">[DOPLŇTE sídlo / adresu]</p>
+        {%- endif -%}
+        {%- if company_ico != blank -%}
+          <p>IČO: {{ company_ico | escape }}</p>
+        {%- else -%}
+          <p class="gufrau-contact__placeholder">IČO: [DOPLŇTE]</p>
+        {%- endif -%}
+        {%- if company_dic != blank -%}
+          <p>DIČ: {{ company_dic | escape }}</p>
+        {%- endif -%}
+        {%- if shop_email != blank -%}
+          <p>
+            <a class="gufrau-contact__email gufrau-contact__email--inline" href="mailto:{{ shop_email | escape }}">
+              {{ shop_email | escape }}
+            </a>
+          </p>
+        {%- endif -%}
+        {%- if shop_phone != blank -%}
+          <p>
+            <a class="gufrau-contact__email gufrau-contact__email--inline" href="tel:{{ shop_phone | escape | replace: ' ', '' }}">
+              {{ shop_phone | escape }}
+            </a>
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="{{ legal_label | escape }}">
+      <h2 class="gufrau-contact__label">{{ legal_label | escape }}</h2>
+      <ul class="gufrau-contact__legal-list">
+        <li>
+          <a class="gufrau-contact__legal-link" href="{% if pages['obchodni-podminky'].url != blank %}{{ pages['obchodni-podminky'].url }}{% else %}/pages/obchodni-podminky{% endif %}">
+            Obchodní podmínky
+          </a>
+        </li>
+        <li>
+          <a class="gufrau-contact__legal-link" href="{% if pages['reklamacni-rad'].url != blank %}{{ pages['reklamacni-rad'].url }}{% else %}/pages/reklamacni-rad{% endif %}">
+            Reklamační řád
+          </a>
+        </li>
+        <li>
+          <a class="gufrau-contact__legal-link" href="{% if pages['odstoupeni-od-smlouvy'].url != blank %}{{ pages['odstoupeni-od-smlouvy'].url }}{% else %}/pages/odstoupeni-od-smlouvy{% endif %}">
+            Odstoupení od smlouvy
+          </a>
+        </li>
+        <li>
+          <a class="gufrau-contact__legal-link" href="{% if pages['ochrana-osobnich-udaju'].url != blank %}{{ pages['ochrana-osobnich-udaju'].url }}{% else %}/pages/ochrana-osobnich-udaju{% endif %}">
+            Ochrana osobních údajů
+          </a>
+        </li>
+        <li>
+          <a class="gufrau-contact__legal-link" href="{% if pages['cookies'].url != blank %}{{ pages['cookies'].url }}{% else %}/pages/cookies{% endif %}">
+            Zásady cookies
+          </a>
+        </li>
+        <li>
+          <a class="gufrau-contact__legal-link" href="{% if pages['mimosoudni-reseni-sporu'].url != blank %}{{ pages['mimosoudni-reseni-sporu'].url }}{% else %}/pages/mimosoudni-reseni-sporu{% endif %}">
+            Mimosoudní řešení sporů
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 
   <div class="gufrau-contact__logo" aria-hidden="true">
@@ -87,7 +169,8 @@
     background: #fff;
     color: var(--gufrau-contact-text);
     isolation: isolate;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .gufrau-contact__home {
@@ -136,7 +219,7 @@
     flex-direction: column;
     gap: clamp(1.75rem, 4vh, 2.75rem);
     padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 28vh;
-    max-width: 40rem;
+    max-width: 42rem;
   }
 
   .gufrau-contact__block {
@@ -163,8 +246,66 @@
     transition: opacity 180ms var(--gufrau-ease);
   }
 
+  .gufrau-contact__email--inline {
+    font-size: inherit;
+  }
+
   .gufrau-contact__email:hover {
     opacity: 0.65;
+  }
+
+  .gufrau-contact__seller {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: 0.15rem;
+    font-size: clamp(0.98rem, 1.8vw, 1.15rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+  }
+
+  .gufrau-contact__seller p {
+    margin: 0;
+  }
+
+  .gufrau-contact__placeholder {
+    opacity: 0.45;
+  }
+
+  .gufrau-contact__legal {
+    gap: 0.55rem;
+  }
+
+  .gufrau-contact__legal-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .gufrau-contact__legal-link {
+    color: inherit;
+    text-decoration: none;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    transition:
+      opacity 180ms var(--gufrau-ease),
+      transform 180ms var(--gufrau-ease);
+    display: inline-block;
+  }
+
+  .gufrau-contact__legal-link:hover {
+    opacity: 0.65;
+    transform: translateX(3px);
+  }
+
+  .gufrau-contact__legal-link:active {
+    transform: translateX(1px) scale(0.98);
   }
 
   .gufrau-contact__logo {
@@ -195,4 +336,3 @@
     }
   }
 {% endstylesheet %}
-
