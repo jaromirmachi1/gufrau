@@ -40,7 +40,7 @@
   const tick = () => {
     pos.x += (mouse.x - pos.x) * 0.18;
     pos.y += (mouse.y - pos.y) * 0.18;
-    const scale = hovering ? 1.6 : 1;
+    const scale = hovering ? 1.35 : 1;
     ring.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%) scale(${scale})`;
     raf = window.requestAnimationFrame(tick);
   };

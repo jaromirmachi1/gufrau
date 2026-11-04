@@ -1,10 +1,10 @@
 {%- comment -%}
-  Lagging blue moon cursor for GUFRAU pages.
+  Soft blue chase blob for GUFRAU pages.
   Desktop + fine pointer only; disabled for reduced motion.
 {%- endcomment -%}
 
 <div class="gufrau-cursor" data-gufrau-cursor aria-hidden="true">
-  <span class="gufrau-cursor__moon" data-gufrau-cursor-ring></span>
+  <span class="gufrau-cursor__blob" data-gufrau-cursor-ring></span>
 </div>
 
 <script src="{{ 'gufrau-cursor.js' | asset_url }}" defer></script>
@@ -23,22 +23,23 @@
     opacity: 1;
   }
 
-  .gufrau-cursor__moon {
+  .gufrau-cursor__blob {
     position: fixed;
     top: 0;
     left: 0;
-    width: 24px;
-    height: 24px;
+    width: 48px;
+    height: 48px;
     border: 0;
     border-radius: 50%;
-    background: #0000ff;
-    box-shadow: inset -7px 0 0 0 #fff;
+    background: radial-gradient(circle at 35% 30%, rgba(80, 80, 255, 0.55), rgba(0, 0, 255, 0.28) 55%, rgba(0, 0, 255, 0) 72%);
+    filter: blur(2px);
+    mix-blend-mode: multiply;
     will-change: transform;
-    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%) rotate(-20deg);
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
   }
 
-  .gufrau-cursor.is-hover .gufrau-cursor__moon {
-    box-shadow: inset -6px 0 0 0 #fff;
+  .gufrau-cursor.is-hover .gufrau-cursor__blob {
+    background: radial-gradient(circle at 35% 30%, rgba(80, 80, 255, 0.7), rgba(0, 0, 255, 0.38) 55%, rgba(0, 0, 255, 0) 72%);
   }
 
   @media (hover: none), (pointer: coarse) {
