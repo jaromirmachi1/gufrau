@@ -1,11 +1,9 @@
 {%- comment -%}
-  Awwwards-style lagging cursor chase for GUFRAU pages.
+  Simple lagging cursor circle for GUFRAU pages.
   Desktop + fine pointer only; disabled for reduced motion.
 {%- endcomment -%}
 
 <div class="gufrau-cursor" data-gufrau-cursor aria-hidden="true">
-  <span class="gufrau-cursor__ghost" data-gufrau-cursor-ghost></span>
-  <span class="gufrau-cursor__mid" data-gufrau-cursor-mid></span>
   <span class="gufrau-cursor__ring" data-gufrau-cursor-ring></span>
 </div>
 
@@ -25,43 +23,17 @@
     opacity: 1;
   }
 
-  .gufrau-cursor__ring,
-  .gufrau-cursor__mid,
-  .gufrau-cursor__ghost {
+  .gufrau-cursor__ring {
     position: fixed;
     top: 0;
     left: 0;
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid #0000ff;
     border-radius: 50%;
+    background: transparent;
     will-change: transform;
     transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-  }
-
-  .gufrau-cursor__ring {
-    width: 18px;
-    height: 18px;
-    border: 1.5px solid #111;
-    background: transparent;
-  }
-
-  .gufrau-cursor__mid {
-    width: 6px;
-    height: 6px;
-    background: #111;
-  }
-
-  .gufrau-cursor__ghost {
-    width: 42px;
-    height: 42px;
-    border: 1px solid rgba(17, 17, 17, 0.28);
-    background: rgba(17, 17, 17, 0.04);
-  }
-
-  .gufrau-cursor.is-hover .gufrau-cursor__ring {
-    border-color: #111;
-  }
-
-  .gufrau-cursor.is-hover .gufrau-cursor__ghost {
-    background: rgba(17, 17, 17, 0.07);
   }
 
   @media (hover: none), (pointer: coarse) {
