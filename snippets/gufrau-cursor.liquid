@@ -1,10 +1,10 @@
 {%- comment -%}
-  Simple lagging cursor circle for GUFRAU pages.
+  Lagging blue moon cursor for GUFRAU pages.
   Desktop + fine pointer only; disabled for reduced motion.
 {%- endcomment -%}
 
 <div class="gufrau-cursor" data-gufrau-cursor aria-hidden="true">
-  <span class="gufrau-cursor__ring" data-gufrau-cursor-ring></span>
+  <span class="gufrau-cursor__moon" data-gufrau-cursor-ring></span>
 </div>
 
 <script src="{{ 'gufrau-cursor.js' | asset_url }}" defer></script>
@@ -23,17 +23,22 @@
     opacity: 1;
   }
 
-  .gufrau-cursor__ring {
+  .gufrau-cursor__moon {
     position: fixed;
     top: 0;
     left: 0;
-    width: 22px;
-    height: 22px;
-    border: 1.5px solid #0000ff;
+    width: 24px;
+    height: 24px;
+    border: 0;
     border-radius: 50%;
-    background: transparent;
+    background: #0000ff;
+    box-shadow: inset -7px 0 0 0 #fff;
     will-change: transform;
-    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%) rotate(-20deg);
+  }
+
+  .gufrau-cursor.is-hover .gufrau-cursor__moon {
+    box-shadow: inset -6px 0 0 0 #fff;
   }
 
   @media (hover: none), (pointer: coarse) {
