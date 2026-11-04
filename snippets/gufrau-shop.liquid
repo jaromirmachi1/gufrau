@@ -13,6 +13,7 @@
   {{ section.shopify_attributes }}
 >
   <a class="gufrau-shop__home" href="{{ routes.root_url }}">home</a>
+  {% render 'gufrau-cart-link' %}
 
   <div class="gufrau-shop__grid">
     {%- if collection != blank and collection.products_count > 0 -%}
@@ -151,6 +152,8 @@
     {%- endif -%}
   </div>
 </section>
+
+<script src="{{ 'gufrau-cart.js' | asset_url }}" defer></script>
 
 <script>
   (() => {

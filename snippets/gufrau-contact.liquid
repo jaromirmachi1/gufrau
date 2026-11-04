@@ -6,11 +6,11 @@
   assign management_label = section.settings.management_label | default: 'Management'
   assign management_email = section.settings.management_email | default: 'management@gufrau.com'
   assign seller_label = section.settings.seller_label | default: 'Provozovatel e-shopu'
-  assign company_name = section.settings.company_name
-  assign company_address = section.settings.company_address
-  assign company_ico = section.settings.company_ico
+  assign company_name = section.settings.company_name | default: 'GUFRAU s.r.o.'
+  assign company_address = section.settings.company_address | default: 'Na Kozačce 1103/5, Vinohrady, 120 00 Praha 2'
+  assign company_ico = section.settings.company_ico | default: '29663075'
   assign company_dic = section.settings.company_dic
-  assign shop_email = section.settings.shop_email
+  assign shop_email = section.settings.shop_email | default: 'management@gufrau.com'
   assign shop_phone = section.settings.shop_phone
   assign legal_label = section.settings.legal_label | default: 'Právní informace'
 %}
@@ -23,93 +23,87 @@
   <a class="gufrau-contact__home" href="{{ routes.root_url }}">home</a>
 
   <div class="gufrau-contact__content">
-    <div class="gufrau-contact__block">
-      <h1 class="gufrau-contact__label">{{ booking_label | escape }}</h1>
-      <a class="gufrau-contact__email" href="mailto:{{ booking_email | escape }}">
-        {{ booking_email | escape }}
-      </a>
-    </div>
+    <div class="gufrau-contact__col gufrau-contact__col--main">
+      <div class="gufrau-contact__block">
+        <h1 class="gufrau-contact__label">{{ booking_label | escape }}</h1>
+        <a class="gufrau-contact__email" href="mailto:{{ booking_email | escape }}">
+          {{ booking_email | escape }}
+        </a>
+      </div>
 
-    <div class="gufrau-contact__block">
-      <h2 class="gufrau-contact__label">{{ management_label | escape }}</h2>
-      <a class="gufrau-contact__email" href="mailto:{{ management_email | escape }}">
-        {{ management_email | escape }}
-      </a>
-    </div>
-
-    <div class="gufrau-contact__block gufrau-contact__block--seller">
-      <h2 class="gufrau-contact__label">{{ seller_label | escape }}</h2>
-      <div class="gufrau-contact__seller">
-        {%- if company_name != blank -%}
-          <p>{{ company_name | escape }}</p>
-        {%- else -%}
-          <p class="gufrau-contact__placeholder">[DOPLŇTE obchodní firmu / jméno]</p>
-        {%- endif -%}
-        {%- if company_address != blank -%}
-          <p>{{ company_address | escape | newline_to_br }}</p>
-        {%- else -%}
-          <p class="gufrau-contact__placeholder">[DOPLŇTE sídlo / adresu]</p>
-        {%- endif -%}
-        {%- if company_ico != blank -%}
-          <p>IČO: {{ company_ico | escape }}</p>
-        {%- else -%}
-          <p class="gufrau-contact__placeholder">IČO: [DOPLŇTE]</p>
-        {%- endif -%}
-        {%- if company_dic != blank -%}
-          <p>DIČ: {{ company_dic | escape }}</p>
-        {%- endif -%}
-        {%- if shop_email != blank -%}
-          <p>
-            <a class="gufrau-contact__email gufrau-contact__email--inline" href="mailto:{{ shop_email | escape }}">
-              {{ shop_email | escape }}
-            </a>
-          </p>
-        {%- endif -%}
-        {%- if shop_phone != blank -%}
-          <p>
-            <a class="gufrau-contact__email gufrau-contact__email--inline" href="tel:{{ shop_phone | escape | replace: ' ', '' }}">
-              {{ shop_phone | escape }}
-            </a>
-          </p>
-        {%- endif -%}
+      <div class="gufrau-contact__block">
+        <h2 class="gufrau-contact__label">{{ management_label | escape }}</h2>
+        <a class="gufrau-contact__email" href="mailto:{{ management_email | escape }}">
+          {{ management_email | escape }}
+        </a>
       </div>
     </div>
 
-    <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="{{ legal_label | escape }}">
-      <h2 class="gufrau-contact__label">{{ legal_label | escape }}</h2>
-      <ul class="gufrau-contact__legal-list">
-        <li>
-          <a class="gufrau-contact__legal-link" href="{% if pages['obchodni-podminky'].url != blank %}{{ pages['obchodni-podminky'].url }}{% else %}/pages/obchodni-podminky{% endif %}">
-            Obchodní podmínky
-          </a>
-        </li>
-        <li>
-          <a class="gufrau-contact__legal-link" href="{% if pages['reklamacni-rad'].url != blank %}{{ pages['reklamacni-rad'].url }}{% else %}/pages/reklamacni-rad{% endif %}">
-            Reklamační řád
-          </a>
-        </li>
-        <li>
-          <a class="gufrau-contact__legal-link" href="{% if pages['odstoupeni-od-smlouvy'].url != blank %}{{ pages['odstoupeni-od-smlouvy'].url }}{% else %}/pages/odstoupeni-od-smlouvy{% endif %}">
-            Odstoupení od smlouvy
-          </a>
-        </li>
-        <li>
-          <a class="gufrau-contact__legal-link" href="{% if pages['ochrana-osobnich-udaju'].url != blank %}{{ pages['ochrana-osobnich-udaju'].url }}{% else %}/pages/ochrana-osobnich-udaju{% endif %}">
-            Ochrana osobních údajů
-          </a>
-        </li>
-        <li>
-          <a class="gufrau-contact__legal-link" href="{% if pages['cookies'].url != blank %}{{ pages['cookies'].url }}{% else %}/pages/cookies{% endif %}">
-            Zásady cookies
-          </a>
-        </li>
-        <li>
-          <a class="gufrau-contact__legal-link" href="{% if pages['mimosoudni-reseni-sporu'].url != blank %}{{ pages['mimosoudni-reseni-sporu'].url }}{% else %}/pages/mimosoudni-reseni-sporu{% endif %}">
-            Mimosoudní řešení sporů
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <div class="gufrau-contact__col gufrau-contact__col--aside">
+      <div class="gufrau-contact__block gufrau-contact__block--seller">
+        <h2 class="gufrau-contact__label">{{ seller_label | escape }}</h2>
+        <div class="gufrau-contact__seller">
+          <p>{{ company_name | escape }}</p>
+          <p>{{ company_address | escape | newline_to_br }}</p>
+          <p>IČO: {{ company_ico | escape }}</p>
+          {%- if company_dic != blank -%}
+            <p>DIČ: {{ company_dic | escape }}</p>
+          {%- else -%}
+            <p>Neplátce DPH</p>
+          {%- endif -%}
+          {%- if shop_email != blank -%}
+            <p>
+              <a class="gufrau-contact__email gufrau-contact__email--inline" href="mailto:{{ shop_email | escape }}">
+                {{ shop_email | escape }}
+              </a>
+            </p>
+          {%- endif -%}
+          {%- if shop_phone != blank -%}
+            <p>
+              <a class="gufrau-contact__email gufrau-contact__email--inline" href="tel:{{ shop_phone | escape | replace: ' ', '' }}">
+                {{ shop_phone | escape }}
+              </a>
+            </p>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="{{ legal_label | escape }}">
+        <h2 class="gufrau-contact__label">{{ legal_label | escape }}</h2>
+        <ul class="gufrau-contact__legal-list">
+          <li>
+            <a class="gufrau-contact__legal-link" href="{% if pages['obchodni-podminky'].url != blank %}{{ pages['obchodni-podminky'].url }}{% else %}/pages/obchodni-podminky{% endif %}">
+              Obchodní podmínky
+            </a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{% if pages['reklamacni-rad'].url != blank %}{{ pages['reklamacni-rad'].url }}{% else %}/pages/reklamacni-rad{% endif %}">
+              Reklamační řád
+            </a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{% if pages['odstoupeni-od-smlouvy'].url != blank %}{{ pages['odstoupeni-od-smlouvy'].url }}{% else %}/pages/odstoupeni-od-smlouvy{% endif %}">
+              Odstoupení od smlouvy
+            </a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{% if pages['ochrana-osobnich-udaju'].url != blank %}{{ pages['ochrana-osobnich-udaju'].url }}{% else %}/pages/ochrana-osobnich-udaju{% endif %}">
+              Ochrana osobních údajů
+            </a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{% if pages['cookies'].url != blank %}{{ pages['cookies'].url }}{% else %}/pages/cookies{% endif %}">
+              Zásady cookies
+            </a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{% if pages['mimosoudni-reseni-sporu'].url != blank %}{{ pages['mimosoudni-reseni-sporu'].url }}{% else %}/pages/mimosoudni-reseni-sporu{% endif %}">
+              Mimosoudní řešení sporů
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 
   <div class="gufrau-contact__logo" aria-hidden="true">
@@ -215,11 +209,24 @@
   .gufrau-contact__content {
     position: relative;
     z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+    width: 100%;
+    padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 26vh;
+  }
+
+  .gufrau-contact__col {
     display: flex;
     flex-direction: column;
     gap: clamp(1.75rem, 4vh, 2.75rem);
-    padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 28vh;
-    max-width: 42rem;
+    min-width: 0;
+  }
+
+  .gufrau-contact__col--aside {
+    justify-self: end;
+    width: min(100%, 26rem);
   }
 
   .gufrau-contact__block {
@@ -330,9 +337,17 @@
     margin: 0 0 0 -2.5%;
   }
 
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 899px) {
     .gufrau-contact__content {
+      grid-template-columns: 1fr;
+      gap: clamp(1.75rem, 4vh, 2.5rem);
       padding-bottom: 24vh;
+    }
+
+    .gufrau-contact__col--aside {
+      justify-self: start;
+      width: 100%;
+      max-width: 42rem;
     }
   }
 {% endstylesheet %}

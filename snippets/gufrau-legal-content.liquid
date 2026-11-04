@@ -1,16 +1,23 @@
 {% comment %}
-  Default Czech e-shop legal templates.
-  Shown when the Shopify page body is empty.
-  Replace [DOPLŇTE …] with real seller data, or paste final lawyer-reviewed text into the page editor.
+  Default Czech e-shop legal templates for GUFRAU s.r.o. (IČO 29663075).
+  Shown when the Shopify page body is empty. Prefer lawyer-reviewed final text in the page editor before launch.
 {% endcomment %}
+
+{%- liquid
+  assign seller_name = 'GUFRAU s.r.o.'
+  assign seller_address = 'Na Kozačce 1103/5, Vinohrady, 120 00 Praha 2'
+  assign seller_ico = '29663075'
+  assign seller_court = 'obchodním rejstříku vedeném Městským soudem v Praze, sp. zn. C 450371'
+  assign seller_email = 'management@gufrau.com'
+-%}
 
 {%- case handle -%}
   {%- when 'obchodni-podminky' -%}
-    <p class="gufrau-legal__note">Šablona pro český e-shop. Doplňte údaje prodávajícího a nechte text zkontrolovat právníkem před ostrým provozem.</p>
+    <p class="gufrau-legal__note">Šablona pro český e-shop GUFRAU. Před ostrým provozem nechte text zkontrolovat právníkem a doplňte konkrétní dopravu, platby a lhůty dle reálného provozu.</p>
 
     <h2>1. Úvodní ustanovení</h2>
     <p>Tyto všeobecné obchodní podmínky (dále jen „VOP“) upravují vztahy mezi prodávajícím a kupujícím při nákupu zboží prostřednictvím internetového obchodu provozovaného na této webové stránce.</p>
-    <p><strong>Prodávající:</strong> [DOPLŇTE obchodní firmu / jméno], se sídlem [DOPLŇTE adresu], IČO: [DOPLŇTE], DIČ: [DOPLŇTE], zapsaný/á v [DOPLŇTE obchodní rejstřík / živnostenský rejstřík], e-mail: [DOPLŇTE], telefon: [DOPLŇTE].</p>
+    <p><strong>Prodávající:</strong> {{ seller_name }}, se sídlem {{ seller_address }}, IČO: {{ seller_ico }}, zapsaná v {{ seller_court }}, e-mail: <a href="mailto:{{ seller_email }}">{{ seller_email }}</a>. Společnost není plátcem DPH.</p>
 
     <h2>2. Vymezení pojmů</h2>
     <p>Kupujícím je spotřebitel nebo podnikatel. Spotřebitelem je každý člověk, který mimo rámec své podnikatelské činnosti nebo mimo rámec samostatného výkonu svého povolání uzavírá smlouvu s podnikatelem nebo s ním jinak jedná.</p>
@@ -21,7 +28,7 @@
 
     <h2>4. Cena, platba a doprava</h2>
     <p>Ceny zboží jsou uvedeny včetně DPH, není-li výslovně uvedeno jinak. K ceně se připočítávají náklady na dopravu dle zvolené metody. Aktuální platební a dopravní možnosti jsou uvedeny v košíku před dokončením objednávky.</p>
-    <p>Dodací lhůta: zpravidla [DOPLŇTE, např. 2–5 pracovních dnů] od přijetí platby / potvrzení objednávky, není-li u zboží uvedeno jinak.</p>
+    <p>Dodací lhůta: zpravidla 2–7 pracovních dnů od přijetí platby / potvrzení objednávky, není-li u zboží uvedeno jinak.</p>
 
     <h2>5. Převzetí zboží</h2>
     <p>Kupující je povinen zboží při převzetí zkontrolovat. Zjevné poškození obalu nebo zboží je nutné ihned reklamovat u dopravce a oznámit prodávajícímu.</p>
@@ -42,16 +49,14 @@
     <p>Vztahy neupravené těmito VOP se řídí právním řádem České republiky, zejména občanským zákoníkem a zákonem o ochraně spotřebitele. Tyto VOP nabývají účinnosti dnem zveřejnění.</p>
 
   {%- when 'reklamacni-rad' -%}
-    <p class="gufrau-legal__note">Šablona reklamačního řádu. Doplňte kontaktní údaje a adresu pro uplatnění reklamace.</p>
-
     <h2>1. Obecná ustanovení</h2>
-    <p>Tento reklamační řád upravuje způsob a podmínky reklamace zboží zakoupeného u prodávajícího [DOPLŇTE obchodní firmu], IČO: [DOPLŇTE].</p>
+    <p>Tento reklamační řád upravuje způsob a podmínky reklamace zboží zakoupeného u prodávajícího {{ seller_name }}, IČO: {{ seller_ico }}.</p>
 
     <h2>2. Práva z vadného plnění</h2>
     <p>Prodávající odpovídá spotřebiteli, že věc při převzetí nemá vady. Spotřebitel může uplatnit právo z vady, která se vyskytne u spotřebního zboží v době 24 měsíců od převzetí, nestanoví-li zákon jinak.</p>
 
     <h2>3. Kde a jak reklamovat</h2>
-    <p>Reklamaci uplatněte písemně (e-mail: [DOPLŇTE]) nebo na adrese: [DOPLŇTE adresa pro reklamace]. Uveďte jméno, kontakt, číslo objednávky, popis vady a požadovaný způsob vyřízení. Přiložte doklad o koupi.</p>
+    <p>Reklamaci uplatněte písemně na e-mail <a href="mailto:{{ seller_email }}">{{ seller_email }}</a> nebo poštou na adresu {{ seller_address }}. Uveďte jméno, kontakt, číslo objednávky, popis vady a požadovaný způsob vyřízení. Přiložte doklad o koupi.</p>
 
     <h2>4. Lhůty</h2>
     <p>Prodávající o přijetí reklamace informuje bez zbytečného odkladu, nejpozději do 3 pracovních dnů. Reklamace včetně odstranění vady bude vyřízena bez zbytečného odkladu, nejpozději do 30 dnů ode dne uplatnění, nedohodnete-li se na delší lhůtě.</p>
@@ -63,18 +68,16 @@
     <p>Je-li reklamace oprávněná, hradí náklady spojené s uplatněním práva z vadného plnění prodávající.</p>
 
   {%- when 'odstoupeni-od-smlouvy' -%}
-    <p class="gufrau-legal__note">Povinné poučení pro spotřebitele + vzorový formulář. Doplňte adresu a e-mail, kam se odstoupení zasílá.</p>
-
     <h2>Právo na odstoupení od smlouvy</h2>
     <p>Spotřebitel má právo odstoupit od smlouvy uzavřené prostřednictvím prostředku komunikace na dálku bez udání důvodu ve lhůtě 14 dnů ode dne převzetí zboží (u smlouvy o více věcech ode dne převzetí poslední dodávky).</p>
     <p>Pro dodržení lhůty stačí odeslat oznámení o odstoupení před jejím uplynutím.</p>
 
     <h2>Jak odstoupit</h2>
-    <p>Odstoupení zašlete na e-mail [DOPLŇTE] nebo poštou na adresu [DOPLŇTE]. Můžete použít níže uvedený vzorový formulář, není to však povinné.</p>
+    <p>Odstoupení zašlete na e-mail <a href="mailto:{{ seller_email }}">{{ seller_email }}</a> nebo poštou na adresu {{ seller_address }}. Můžete použít níže uvedený vzorový formulář, není to však povinné.</p>
 
     <h2>Důsledky odstoupení</h2>
     <p>Po odstoupení vrátíme všechny platby včetně nákladů na dodání (nejvýše ve výši nejlevnějšího nabízeného způsobu dopravy) bez zbytečného odkladu, nejpozději do 14 dnů od doručení oznámení o odstoupení. Platbu vrátíme stejným způsobem, nestanovíte-li jinak. Vrácení peněz můžeme odložit do obdržení zboží zpět nebo do prokázání jeho odeslání.</p>
-    <p>Zboží zašlete zpět na adresu [DOPLŇTE] bez zbytečného odkladu, nejpozději do 14 dnů od odstoupení. Náklady na vrácení zboží nese spotřebitel, pokud nebylo ujednáno jinak.</p>
+    <p>Zboží zašlete zpět na adresu {{ seller_address }} bez zbytečného odkladu, nejpozději do 14 dnů od odstoupení. Náklady na vrácení zboží nese spotřebitel, pokud nebylo ujednáno jinak.</p>
     <p>Spotřebitel odpovídá za snížení hodnoty zboží v důsledku nakládání s ním jinak, než je nutné k seznámení se s povahou, vlastnostmi a funkčností zboží.</p>
 
     <h2>Výjimky</h2>
@@ -83,7 +86,7 @@
     <h2>Vzorový formulář pro odstoupení od smlouvy</h2>
     <p>(vyplňte a odešlete pouze v případě, že chcete odstoupit od smlouvy)</p>
     <p>
-      Adresát: [DOPLŇTE obchodní firmu, adresu, e-mail]<br><br>
+      Adresát: {{ seller_name }}, {{ seller_address }}, {{ seller_email }}<br><br>
       Oznamuji/oznamujeme(*), že tímto odstupuji/odstupujeme(*) od smlouvy o koupi tohoto zboží(*) / o poskytnutí těchto služeb(*):<br>
       Datum objednání(*) / datum obdržení(*):<br>
       Jméno a příjmení spotřebitele/spotřebitelů:<br>
@@ -94,10 +97,8 @@
     </p>
 
   {%- when 'ochrana-osobnich-udaju' -%}
-    <p class="gufrau-legal__note">GDPR informační dokument. Doplňte správce, kontakty a konkrétní zpracovatele (Shopify, dopravci, platební brána).</p>
-
     <h2>1. Správce osobních údajů</h2>
-    <p>Správcem je [DOPLŇTE obchodní firmu / jméno], se sídlem [DOPLŇTE], IČO: [DOPLŇTE], e-mail: [DOPLŇTE], telefon: [DOPLŇTE].</p>
+    <p>Správcem je {{ seller_name }}, se sídlem {{ seller_address }}, IČO: {{ seller_ico }}, e-mail: <a href="mailto:{{ seller_email }}">{{ seller_email }}</a>.</p>
 
     <h2>2. Jaké údaje zpracováváme</h2>
     <p>Zejména identifikační a kontaktní údaje (jméno, adresa, e-mail, telefon), údaje o objednávkách a platbách, technické údaje o návštěvě webu (IP adresa, cookies — viz <a href="/pages/cookies">Zásady cookies</a>).</p>
@@ -115,28 +116,26 @@
     <p>Údaje uchováváme po dobu nezbytnou k danému účelu, typicky po dobu trvání smlouvy a dále po dobu stanovenou právními předpisy (např. účetní doklady až 10 let), případně do odvolání souhlasu.</p>
 
     <h2>5. Příjemci a zpracovatelé</h2>
-    <p>Údaje mohou být předány zpracovatelům: platforma e-shopu (Shopify), dopravci, platební brány, účetní služby, případně další dodavatelé uvedené zde: [DOPLŇTE].</p>
+    <p>Údaje mohou být předány zpracovatelům: platforma e-shopu (Shopify), dopravci, platební brány a případně účetní služby zajišťující provoz obchodu.</p>
 
     <h2>6. Předání mimo EU</h2>
-    <p>[DOPLŇTE: zda dochází k předání mimo EU/EHP — např. přes Shopify — a jaké záruky (SCC apod.) používáte.]</p>
+    <p>Při používání Shopify může docházet k předání osobních údajů mimo EU/EHP. Shopify poskytuje záruky souladu s GDPR, včetně standardních smluvních doložek (SCC), kde je to relevantní.</p>
 
     <h2>7. Vaše práva</h2>
     <p>Máte právo na přístup, opravu, výmaz, omezení zpracování, přenositelnost, námitku a odvolání souhlasu. Stížnost můžete podat u Úřadu pro ochranu osobních údajů (<a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>).</p>
 
     <h2>8. Kontakt</h2>
-    <p>Pro uplatnění práv pište na [DOPLŇTE e-mail].</p>
+    <p>Pro uplatnění práv pište na <a href="mailto:{{ seller_email }}">{{ seller_email }}</a>.</p>
 
   {%- when 'cookies' -%}
-    <p class="gufrau-legal__note">Informace o cookies. Doplňte konkrétní nástroje (Shopify, analytika, marketing) dle reálného nasazení.</p>
-
     <h2>1. Co jsou cookies</h2>
     <p>Cookies jsou malé textové soubory ukládané do vašeho zařízení při návštěvě webu. Pomáhají zajistit fungování obchodu, zapamatovat si nastavení a (se souhlasem) měřit návštěvnost či personalizovat obsah.</p>
 
     <h2>2. Jaké cookies používáme</h2>
     <ul>
       <li><strong>Nezbytné</strong> — košík, přihlášení, zabezpečení, základní funkce e-shopu (bez souhlasu nelze provozovat).</li>
-      <li><strong>Analytické</strong> — statistiky návštěvnosti [DOPLŇTE nástroj, např. Shopify analytics / Google Analytics].</li>
-      <li><strong>Marketingové</strong> — měření kampaní a remarketing [DOPLŇTE, nebo uveďte „nepoužíváme“].</li>
+      <li><strong>Analytické</strong> — statistiky návštěvnosti (Shopify analytics a případné další nástroje aktivované v administraci).</li>
+      <li><strong>Marketingové</strong> — pouze pokud jsou v obchodě aktivně nasazeny reklamní / remarketingové nástroje.</li>
     </ul>
 
     <h2>3. Souhlas a správa</h2>
@@ -146,8 +145,6 @@
     <p>Více o zpracování osobních údajů najdete v dokumentu <a href="/pages/ochrana-osobnich-udaju">Zásady ochrany osobních údajů</a>.</p>
 
   {%- when 'mimosoudni-reseni-sporu' -%}
-    <p class="gufrau-legal__note">Povinná informace o ADR pro spotřebitele v ČR / EU.</p>
-
     <h2>Mimosoudní řešení spotřebitelských sporů</h2>
     <p>Pokud mezi prodávajícím a spotřebitelem dojde ke spotřebitelskému sporu, který se nepodaří vyřešit dohodou, může se spotřebitel obrátit na subjekt mimosoudního řešení spotřebitelských sporů.</p>
 
@@ -165,7 +162,7 @@
     <p>Spotřebitelé mohou využít také platformu Evropské komise pro řešení sporů on-line: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.</p>
 
     <h2>Kontakt na prodávajícího</h2>
-    <p>[DOPLŇTE obchodní firmu], IČO: [DOPLŇTE], e-mail: [DOPLŇTE], telefon: [DOPLŇTE].</p>
+    <p>{{ seller_name }}, IČO: {{ seller_ico }}, {{ seller_address }}, e-mail: <a href="mailto:{{ seller_email }}">{{ seller_email }}</a>.</p>
 
   {%- else -%}
     <p>Obsah této stránky zatím není vyplněn. V administraci Shopify otevřete stránku a vložte finální text, nebo použijte jednu z připravených šablon přes handle stránky (obchodni-podminky, reklamacni-rad, odstoupeni-od-smlouvy, ochrana-osobnich-udaju, cookies, mimosoudni-reseni-sporu).</p>

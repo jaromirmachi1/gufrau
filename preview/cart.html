@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GUFRAU — cart</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: #fff;
+        color: #111;
+        font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      }
+      .gufrau-cart {
+        --gufrau-ease: cubic-bezier(0.23, 1, 0.32, 1);
+        position: relative;
+        min-height: 100dvh;
+        padding: clamp(5rem, 12vh, 7rem) clamp(1.25rem, 4vw, 3rem) 3rem;
+      }
+      .gufrau-cart__home, .gufrau-cart__shop {
+        position: absolute;
+        top: clamp(1rem, 3vw, 1.75rem);
+        z-index: 4;
+        min-height: 2.75rem;
+        padding: 0.7rem 1.45rem;
+        display: inline-flex;
+        align-items: center;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: lowercase;
+        text-decoration: none;
+        color: #b0b0b0;
+      }
+      .gufrau-cart__home { left: clamp(1rem, 3vw, 1.75rem); }
+      .gufrau-cart__shop { right: clamp(6.75rem, 14vw, 9.5rem); }
+      .gufrau-cart-link {
+        position: fixed;
+        top: clamp(1rem, 3vw, 1.75rem);
+        right: clamp(1rem, 3vw, 1.75rem);
+        z-index: 5;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 2.75rem;
+        padding: 0.65rem 1.2rem;
+        background: #000;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: lowercase;
+      }
+      .gufrau-cart-link__count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.35rem;
+        height: 1.35rem;
+        padding: 0 0.3rem;
+        border-radius: 999px;
+        background: #fff;
+        color: #000;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .gufrau-cart__layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.7fr);
+        gap: 3rem;
+        width: min(1100px, 100%);
+        margin: 0 auto;
+      }
+      .gufrau-cart__header {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+      }
+      .gufrau-cart__title {
+        margin: 0;
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        text-transform: lowercase;
+      }
+      .gufrau-cart__badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 999px;
+        background: #111;
+        color: #fff;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+      .gufrau-cart__list { list-style: none; margin: 0; padding: 0; }
+      .gufrau-cart__item {
+        display: grid;
+        grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+        gap: 1rem 1.15rem;
+        padding: 1.15rem 0;
+        border-top: 1px solid rgba(17,17,17,.12);
+      }
+      .gufrau-cart__item:last-child { border-bottom: 1px solid rgba(17,17,17,.12); }
+      .gufrau-cart__media {
+        display: block;
+        aspect-ratio: 1;
+        background: #f3f3f3;
+        overflow: hidden;
+      }
+      .gufrau-cart__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .gufrau-cart__name {
+        color: inherit;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .gufrau-cart__unit { margin: 0.25rem 0 0; opacity: .65; font-weight: 500; }
+      .gufrau-cart__controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.85rem;
+      }
+      .gufrau-cart__qty {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(17,17,17,.2);
+      }
+      .gufrau-cart__qty-btn {
+        width: 2.25rem;
+        height: 2.25rem;
+        border: 0;
+        background: transparent;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .gufrau-cart__qty-value {
+        min-width: 1.5rem;
+        text-align: center;
+        font-weight: 700;
+      }
+      .gufrau-cart__remove {
+        border: 0;
+        background: transparent;
+        font: inherit;
+        font-weight: 600;
+        opacity: .45;
+        cursor: pointer;
+        text-transform: lowercase;
+      }
+      .gufrau-cart__line { margin: 0; font-weight: 700; }
+      .gufrau-cart__summary {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        padding-top: 1.35rem;
+      }
+      .gufrau-cart__total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.15rem;
+        font-weight: 700;
+        text-transform: lowercase;
+      }
+      .gufrau-cart__note { margin: 0; opacity: .55; font-size: .88rem; }
+      .gufrau-cart__checkout {
+        appearance: none;
+        width: 100%;
+        min-height: 3.15rem;
+        border: 0;
+        background: #111;
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: lowercase;
+        cursor: pointer;
+      }
+      @media (max-width: 899px) {
+        .gufrau-cart__layout { grid-template-columns: 1fr; }
+        .gufrau-cart__shop { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="gufrau-cart">
+      <a class="gufrau-cart__home" href="index.html">home</a>
+      <a class="gufrau-cart__shop" href="shop.html">shop</a>
+      <a class="gufrau-cart-link" href="cart.html">
+        <span class="gufrau-cart-link__label">cart</span>
+        <span class="gufrau-cart-link__count">1</span>
+      </a>
+      <div class="gufrau-cart__layout">
+        <div class="gufrau-cart__main">
+          <header class="gufrau-cart__header">
+            <h1 class="gufrau-cart__title">cart</h1>
+            <span class="gufrau-cart__badge">1</span>
+          </header>
+          <ul class="gufrau-cart__list">
+            <li class="gufrau-cart__item">
+              <a class="gufrau-cart__media" href="#">
+                <img class="gufrau-cart__img" src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-1_large.png" alt="">
+              </a>
+              <div class="gufrau-cart__meta">
+                <a class="gufrau-cart__name" href="#">Marie April &amp; kubmat X Pikola — usínání coffee beans</a>
+                <p class="gufrau-cart__unit">690,00 Kč</p>
+                <div class="gufrau-cart__controls">
+                  <div class="gufrau-cart__qty">
+                    <button class="gufrau-cart__qty-btn" type="button">−</button>
+                    <span class="gufrau-cart__qty-value">1</span>
+                    <button class="gufrau-cart__qty-btn" type="button">+</button>
+                  </div>
+                  <button class="gufrau-cart__remove" type="button">remove</button>
+                </div>
+              </div>
+              <p class="gufrau-cart__line">690,00 Kč</p>
+            </li>
+          </ul>
+        </div>
+        <aside class="gufrau-cart__summary">
+          <div class="gufrau-cart__total-row">
+            <span>total</span>
+            <strong>690,00 Kč</strong>
+          </div>
+          <p class="gufrau-cart__note">Taxes included. Shipping at checkout.</p>
+          <button class="gufrau-cart__checkout" type="button">checkout</button>
+        </aside>
+      </div>
+    </section>
+  </body>
+</html>

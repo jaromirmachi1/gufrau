@@ -52,16 +52,39 @@
       .gufrau-contact__content {
         position: relative;
         z-index: 2;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+        align-items: start;
+        width: 100%;
+        padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 26vh;
+      }
+      .gufrau-contact__col {
         display: flex;
         flex-direction: column;
         gap: clamp(1.75rem, 4vh, 2.75rem);
-        padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 28vh;
-        max-width: 42rem;
+        min-width: 0;
+      }
+      .gufrau-contact__col--aside {
+        justify-self: end;
+        width: min(100%, 26rem);
       }
       .gufrau-contact__block {
         display: flex;
         flex-direction: column;
         gap: 0.2rem;
+      }
+      @media screen and (max-width: 899px) {
+        .gufrau-contact__content {
+          grid-template-columns: 1fr;
+          gap: clamp(1.75rem, 4vh, 2.5rem);
+          padding-bottom: 24vh;
+        }
+        .gufrau-contact__col--aside {
+          justify-self: start;
+          width: 100%;
+          max-width: 42rem;
+        }
       }
       .gufrau-contact__label {
         margin: 0;
@@ -157,33 +180,39 @@
     <section class="gufrau-contact">
       <a class="gufrau-contact__home" href="index.html">home</a>
       <div class="gufrau-contact__content">
-        <div class="gufrau-contact__block">
-          <h1 class="gufrau-contact__label">Booking</h1>
-          <a class="gufrau-contact__email" href="mailto:booking@gufrau.com">booking@gufrau.com</a>
-        </div>
-        <div class="gufrau-contact__block">
-          <h2 class="gufrau-contact__label">Management</h2>
-          <a class="gufrau-contact__email" href="mailto:management@gufrau.com">management@gufrau.com</a>
-        </div>
-        <div class="gufrau-contact__block">
-          <h2 class="gufrau-contact__label">Provozovatel e-shopu</h2>
-          <div class="gufrau-contact__seller">
-            <p class="gufrau-contact__placeholder">[DOPLŇTE obchodní firmu / jméno]</p>
-            <p class="gufrau-contact__placeholder">[DOPLŇTE sídlo / adresu]</p>
-            <p class="gufrau-contact__placeholder">IČO: [DOPLŇTE]</p>
+        <div class="gufrau-contact__col gufrau-contact__col--main">
+          <div class="gufrau-contact__block">
+            <h1 class="gufrau-contact__label">Booking</h1>
+            <a class="gufrau-contact__email" href="mailto:booking@gufrau.com">booking@gufrau.com</a>
+          </div>
+          <div class="gufrau-contact__block">
+            <h2 class="gufrau-contact__label">Management</h2>
+            <a class="gufrau-contact__email" href="mailto:management@gufrau.com">management@gufrau.com</a>
           </div>
         </div>
-        <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="Právní informace">
-          <h2 class="gufrau-contact__label">Právní informace</h2>
-          <ul class="gufrau-contact__legal-list">
-            <li><a class="gufrau-contact__legal-link" href="legal-obchodni-podminky.html">Obchodní podmínky</a></li>
-            <li><a class="gufrau-contact__legal-link" href="legal-reklamacni-rad.html">Reklamační řád</a></li>
-            <li><a class="gufrau-contact__legal-link" href="legal-odstoupeni.html">Odstoupení od smlouvy</a></li>
-            <li><a class="gufrau-contact__legal-link" href="legal-gdpr.html">Ochrana osobních údajů</a></li>
-            <li><a class="gufrau-contact__legal-link" href="legal-cookies.html">Zásady cookies</a></li>
-            <li><a class="gufrau-contact__legal-link" href="legal-adr.html">Mimosoudní řešení sporů</a></li>
-          </ul>
-        </nav>
+        <div class="gufrau-contact__col gufrau-contact__col--aside">
+          <div class="gufrau-contact__block">
+            <h2 class="gufrau-contact__label">Provozovatel e-shopu</h2>
+            <div class="gufrau-contact__seller">
+              <p>GUFRAU s.r.o.</p>
+              <p>Na Kozačce 1103/5<br>Vinohrady, 120 00 Praha 2</p>
+              <p>IČO: 29663075</p>
+              <p>Neplátce DPH</p>
+              <p><a class="gufrau-contact__email" href="mailto:management@gufrau.com">management@gufrau.com</a></p>
+            </div>
+          </div>
+          <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="Právní informace">
+            <h2 class="gufrau-contact__label">Právní informace</h2>
+            <ul class="gufrau-contact__legal-list">
+              <li><a class="gufrau-contact__legal-link" href="legal-obchodni-podminky.html">Obchodní podmínky</a></li>
+              <li><a class="gufrau-contact__legal-link" href="legal-reklamacni-rad.html">Reklamační řád</a></li>
+              <li><a class="gufrau-contact__legal-link" href="legal-odstoupeni.html">Odstoupení od smlouvy</a></li>
+              <li><a class="gufrau-contact__legal-link" href="legal-gdpr.html">Ochrana osobních údajů</a></li>
+              <li><a class="gufrau-contact__legal-link" href="legal-cookies.html">Zásady cookies</a></li>
+              <li><a class="gufrau-contact__legal-link" href="legal-adr.html">Mimosoudní řešení sporů</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
       <div class="gufrau-contact__logo" aria-hidden="true">
         <img class="gufrau-contact__logo-img" src="../assets/blueorange.png" alt="" width="2902" height="732">

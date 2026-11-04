@@ -7,6 +7,14 @@
         "booking_email": "booking@gufrau.com",
         "management_label": "Management",
         "management_email": "management@gufrau.com",
+        "seller_label": "Provozovatel e-shopu",
+        "company_name": "GUFRAU s.r.o.",
+        "company_address": "Na Kozačce 1103/5\nVinohrady, 120 00 Praha 2",
+        "company_ico": "29663075",
+        "company_dic": "",
+        "shop_email": "management@gufrau.com",
+        "shop_phone": "",
+        "legal_label": "Právní informace",
         "text_color": "#0B1F7A"
       }
     }

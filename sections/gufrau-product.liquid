@@ -23,6 +23,7 @@
 >
   <a class="gufrau-product__home" href="{{ routes.root_url }}">home</a>
   <a class="gufrau-product__back" href="{{ shop_url }}">shop</a>
+  {% render 'gufrau-cart-link' %}
 
   <div class="gufrau-product__layout">
     <div class="gufrau-product__gallery">
@@ -175,6 +176,8 @@
   </div>
 </section>
 
+<script src="{{ 'gufrau-cart.js' | asset_url }}" defer></script>
+
 <script>
   (() => {
     const root = document.querySelector('[data-gufrau-product-page]');
@@ -266,7 +269,11 @@
   }
 
   .gufrau-product__back {
-    right: clamp(1rem, 3vw, 1.75rem);
+    right: clamp(6.75rem, 14vw, 9.5rem);
+  }
+
+  .gufrau-product .gufrau-cart-link {
+    position: fixed;
   }
 
   .gufrau-product__home:hover,
