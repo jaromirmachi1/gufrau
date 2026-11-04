@@ -1,11 +1,18 @@
 {% liquid
   assign collection = section.settings.collection
-  if collection == blank
+  if collection == blank or collection.products_count == 0
     assign collection = collections.all
   endif
+  if collection == blank or collection.products_count == 0
+    assign collection = collections['all']
+  endif
   assign products_limit = section.settings.products_limit | default: 50
+  if products_limit < 1
+    assign products_limit = 24
+  endif
   assign logo_image = section.settings.logo
   assign buy_label = section.settings.buy_label | default: 'BUY'
+  assign shop_products = collection.products
 %}
 
 <section
@@ -16,8 +23,8 @@
   {% render 'gufrau-cart-link' %}
 
   <div class="gufrau-shop__grid">
-    {%- if collection != blank and collection.products_count > 0 -%}
-      {%- for product in collection.products limit: products_limit -%}
+    {%- if shop_products.size > 0 -%}
+      {%- for product in shop_products limit: products_limit -%}
         {%- liquid
           assign size_option = nil
           assign size_option_index = nil
@@ -123,8 +130,14 @@
           </div>
         </article>
       {%- endfor -%}
-    {%- elsif request.design_mode -%}
-      <p class="gufrau-shop__empty">Select a collection with products in the theme editor.</p>
+    {%- else -%}
+      <p class="gufrau-shop__empty">
+        {%- if request.design_mode -%}
+          Select a collection with products in the theme editor.
+        {%- else -%}
+          No products available.
+        {%- endif -%}
+      </p>
     {%- endif -%}
   </div>
 
@@ -246,7 +259,7 @@
 
   .gufrau-shop__grid {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: clamp(1.5rem, 3vw, 2.75rem) clamp(0.85rem, 1.6vw, 1.5rem);
@@ -257,10 +270,13 @@
   }
 
   .gufrau-shop__card {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     min-width: 0;
+    background: #fff;
   }
 
   .gufrau-shop__media {
@@ -268,6 +284,7 @@
     aspect-ratio: 1 / 1.05;
     overflow: hidden;
     text-decoration: none;
+    background: #fff;
   }
 
   .gufrau-shop__img {
@@ -395,7 +412,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 0;
     width: 100%;
     margin: 0;
     padding: 0;
