@@ -22,8 +22,10 @@
   {{ section.shopify_attributes }}
 >
   <a class="gufrau-product__home" href="{{ routes.root_url }}">home</a>
-  <a class="gufrau-product__back" href="{{ shop_url }}">shop</a>
-  {% render 'gufrau-cart-link' %}
+  <div class="gufrau-product__nav-end">
+    <a class="gufrau-product__back" href="{{ shop_url }}">shop</a>
+    {% render 'gufrau-cart-link' %}
+  </div>
 
   <div class="gufrau-product__layout">
     <div class="gufrau-product__gallery">
@@ -241,18 +243,17 @@
 
   .gufrau-product__home,
   .gufrau-product__back {
-    position: fixed;
-    top: clamp(1rem, 3vw, 1.75rem);
     z-index: 5;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem;
-    padding: 0.7rem 1.45rem;
+    height: 2.75rem;
+    padding: 0 1.45rem;
     background: transparent;
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     font-weight: 600;
     letter-spacing: 0.04em;
+    line-height: 1;
     text-transform: lowercase;
     text-decoration: none;
     color: #b0b0b0;
@@ -265,15 +266,33 @@
   }
 
   .gufrau-product__home {
+    position: fixed;
+    top: clamp(1rem, 3vw, 1.75rem);
     left: clamp(1rem, 3vw, 1.75rem);
   }
 
+  .gufrau-product__nav-end {
+    position: fixed;
+    top: clamp(1rem, 3vw, 1.75rem);
+    right: clamp(1rem, 3vw, 1.75rem);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
   .gufrau-product__back {
-    right: clamp(6.75rem, 14vw, 9.5rem);
+    position: static;
   }
 
   .gufrau-product .gufrau-cart-link {
-    position: fixed;
+    position: static;
+    top: auto;
+    right: auto;
+    height: 2.75rem;
+    min-height: 0;
+    padding: 0 1.45rem;
+    line-height: 1;
   }
 
   .gufrau-product__home:hover,

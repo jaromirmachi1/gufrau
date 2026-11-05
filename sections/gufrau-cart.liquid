@@ -131,18 +131,17 @@
 
   .gufrau-cart__home,
   .gufrau-cart__shop {
-    position: absolute;
-    top: clamp(1rem, 3vw, 1.75rem);
     z-index: 4;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 2.75rem;
-    padding: 0.7rem 1.45rem;
+    height: 2.75rem;
+    padding: 0 1.45rem;
     background: transparent;
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     font-weight: 600;
     letter-spacing: 0.04em;
+    line-height: 1;
     text-transform: lowercase;
     text-decoration: none;
     color: #b0b0b0;
@@ -155,11 +154,23 @@
   }
 
   .gufrau-cart__home {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.75rem);
     left: clamp(1rem, 3vw, 1.75rem);
   }
 
   .gufrau-cart__shop {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.75rem);
     right: clamp(5.5rem, 12vw, 7.5rem);
+  }
+
+  .gufrau-cart .gufrau-cart-link {
+    right: clamp(1rem, 3vw, 1.75rem);
+    height: 2.75rem;
+    min-height: 0;
+    padding: 0 1.45rem;
+    line-height: 1;
   }
 
   .gufrau-cart__home:hover,
@@ -175,11 +186,6 @@
   .gufrau-cart__home:active,
   .gufrau-cart__shop:active {
     transform: translateY(0) scale(0.97);
-  }
-
-  .gufrau-cart .gufrau-cart-link {
-    /* cart page: keep pill on far right */
-    right: clamp(1rem, 3vw, 1.75rem);
   }
 
   .gufrau-cart__empty {
