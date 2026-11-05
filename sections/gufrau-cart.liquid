@@ -309,6 +309,8 @@
     align-items: center;
     gap: 0;
     border: 1px solid rgba(17, 17, 17, 0.2);
+    border-radius: 999px;
+    overflow: hidden;
   }
 
   .gufrau-cart__qty-btn {
@@ -412,6 +414,7 @@
     margin: 0.35rem 0 0;
     padding: 0.85rem 1.25rem;
     border: 0;
+    border-radius: 999px;
     background: #111;
     color: #fff;
     font: inherit;
@@ -444,11 +447,20 @@
   .gufrau-cart__accelerated {
     display: grid;
     gap: 0.5rem;
+    --shopify-accelerated-checkout-button-border-radius: 999px;
   }
 
   .gufrau-cart__accelerated shopify-accelerated-checkout,
+  .gufrau-cart__accelerated shopify-accelerated-checkout-cart,
   .gufrau-cart__accelerated .shopify-payment-button {
     width: 100%;
+    --shopify-accelerated-checkout-button-border-radius: 999px;
+  }
+
+  .gufrau-cart__accelerated .shopify-payment-button__button,
+  .gufrau-cart__accelerated .shopify-payment-button__button--unbranded,
+  .gufrau-cart__accelerated button {
+    border-radius: 999px !important;
   }
 
   @media screen and (max-width: 899px) {
