@@ -1,6 +1,8 @@
 (() => {
   const COUNT_SEL = '[data-gufrau-cart-count]';
   const LINK_SEL = '[data-gufrau-cart-link]';
+  const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const setCount = (count) => {
     const n = Math.max(0, Number(count) || 0);
@@ -12,6 +14,73 @@
       el.classList.toggle('has-items', n > 0);
       el.setAttribute('aria-label', n > 0 ? `Cart, ${n} items` : 'Cart');
     });
+  };
+
+  const pulseCart = () => {
+    document.querySelectorAll(LINK_SEL).forEach((el) => {
+      el.classList.remove('is-added');
+      // Force reflow so the animation can replay
+      void el.offsetWidth;
+      el.classList.add('is-added');
+      window.setTimeout(() => el.classList.remove('is-added'), 480);
+    });
+  };
+
+  const flyToCart = (fromEl) => {
+    if (reduceMotion() || !fromEl) {
+      pulseCart();
+      return Promise.resolve();
+    }
+
+    const cartLink = document.querySelector(LINK_SEL);
+    if (!cartLink) {
+      pulseCart();
+      return Promise.resolve();
+    }
+
+    const from = fromEl.getBoundingClientRect();
+    const to = cartLink.getBoundingClientRect();
+    const startX = from.left + from.width / 2;
+    const startY = from.top + from.height / 2;
+    const endX = to.left + to.width / 2;
+    const endY = to.top + to.height / 2;
+    const midX = startX + (endX - startX) * 0.55;
+    const midY = Math.min(startY, endY) - Math.max(60, Math.abs(startY - endY) * 0.35);
+
+    const dot = document.createElement('span');
+    dot.className = 'gufrau-cart-fly';
+    dot.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(dot);
+
+    const animation = dot.animate(
+      [
+        {
+          transform: `translate3d(${startX}px, ${startY}px, 0) translate(-50%, -50%) scale(0.92)`,
+          opacity: 0.9,
+        },
+        {
+          transform: `translate3d(${midX}px, ${midY}px, 0) translate(-50%, -50%) scale(1)`,
+          opacity: 1,
+          offset: 0.42,
+        },
+        {
+          transform: `translate3d(${endX}px, ${endY}px, 0) translate(-50%, -50%) scale(0.4)`,
+          opacity: 0.75,
+        },
+      ],
+      {
+        duration: 620,
+        easing: EASE,
+        fill: 'forwards',
+      }
+    );
+
+    return animation.finished
+      .catch(() => {})
+      .then(() => {
+        dot.remove();
+        pulseCart();
+      });
   };
 
   const refreshCount = async () => {
@@ -42,7 +111,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     refreshCount();
 
-    // Shop / product forms: add via AJAX, stay on page, bump count
     document.querySelectorAll('.gufrau-shop__form, .gufrau-product__form').forEach((form) => {
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -52,30 +120,37 @@
         if (!id) return;
 
         const button = form.querySelector('[type="submit"]');
-        if (button) button.disabled = true;
+        if (button) {
+          button.disabled = true;
+          button.classList.add('is-adding');
+        }
 
         try {
-          const cart = await postJson('/cart/add.js', {
+          await postJson('/cart/add.js', {
             items: [{ id: Number(id), quantity: Number((qtyInput && qtyInput.value) || 1) }],
           });
-          // /cart/add.js returns the line item(s); fetch full cart for accurate count
-          await refreshCount();
-          if (button) {
-            const original = button.textContent;
-            button.textContent = 'added';
-            window.setTimeout(() => {
-              button.textContent = original;
-              button.disabled = false;
-            }, 900);
-          }
-          void cart;
+
+          const original = button ? button.textContent : '';
+          if (button) button.textContent = 'added';
+
+          await Promise.all([refreshCount(), flyToCart(button)]);
+
+          window.setTimeout(() => {
+            if (!button) return;
+            button.textContent = original;
+            button.classList.remove('is-adding');
+            button.disabled = false;
+          }, 700);
         } catch (_) {
+          if (button) {
+            button.classList.remove('is-adding');
+            button.disabled = false;
+          }
           form.submit();
         }
       });
     });
 
-    // Cart page quantity / remove
     const cartRoot = document.querySelector('[data-gufrau-cart-page]');
     if (!cartRoot) return;
 

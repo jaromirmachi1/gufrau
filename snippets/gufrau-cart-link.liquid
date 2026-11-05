@@ -77,4 +77,45 @@
   .gufrau-cart-link__count.is-empty {
     opacity: 0.4;
   }
+
+  .gufrau-cart-link.is-added {
+    animation: gufrau-cart-pop 420ms var(--gufrau-ease) both;
+    color: #0000ff;
+  }
+
+  .gufrau-cart-fly {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #0000ff;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  @keyframes gufrau-cart-pop {
+    0% {
+      transform: scale(1);
+    }
+    35% {
+      transform: scale(1.12);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gufrau-cart-link.is-added {
+      animation: none;
+      color: #0000ff;
+    }
+
+    .gufrau-cart-fly {
+      display: none;
+    }
+  }
 {% endstylesheet %}
