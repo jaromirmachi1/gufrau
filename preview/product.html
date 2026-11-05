@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GUFRAU — product</title>
+    <link rel="stylesheet" href="https://fonts.bunny.net/css?family=source-serif-4:400,600&display=swap">
     <style>
       * { box-sizing: border-box; }
       html, body {
@@ -123,10 +124,22 @@
         cursor: pointer;
       }
       .gufrau-product__desc {
+        --gufrau-desc-font: 'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+        margin-top: 0.85rem;
         max-width: 36rem;
-        font-size: 0.875rem;
-        line-height: 1.55;
-        color: #333;
+        font-family: var(--gufrau-desc-font);
+        font-size: clamp(0.95rem, 1.35vw, 1.05rem);
+        font-weight: 400;
+        line-height: 1.65;
+        letter-spacing: 0.005em;
+        color: #1a1a1a;
+      }
+      .gufrau-product__desc p {
+        margin: 0 0 0.85em;
+      }
+      .gufrau-product__desc strong,
+      .gufrau-product__desc b {
+        font-weight: 600;
       }
       .gufrau-product__logo {
         position: fixed;

@@ -16,6 +16,8 @@
   endfor
 %}
 
+{{ 'https://fonts.bunny.net/css?family=source-serif-4:400,600&display=swap' | stylesheet_tag }}
+
 <section
   class="gufrau-product"
   data-gufrau-product-page
@@ -486,11 +488,24 @@
   }
 
   .gufrau-product__desc {
-    margin-top: 0.75rem;
+    --gufrau-desc-font: 'Source Serif 4', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+    margin-top: 0.85rem;
     max-width: 36rem;
-    font-size: 0.875rem;
-    line-height: 1.55;
-    color: #333;
+    font-family: var(--gufrau-desc-font);
+    font-size: clamp(0.95rem, 1.35vw, 1.05rem);
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.005em;
+    color: #1a1a1a;
+  }
+
+  .gufrau-product__desc p {
+    margin: 0 0 0.85em;
+  }
+
+  .gufrau-product__desc strong,
+  .gufrau-product__desc b {
+    font-weight: 600;
   }
 
   .gufrau-product__desc :first-child {
