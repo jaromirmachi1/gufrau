@@ -22,7 +22,7 @@
   const COLOR_UPDATE_SPEED = 10;
   const BACK_COLOR = { r: 0.5, g: 0, b: 0 };
   const TRANSPARENT = true;
-  const RAINBOW_MODE = true;
+  const RAINBOW_MODE = false;
   const COLOR = '#5f8bff';
 
   let animationFrameId = null;
