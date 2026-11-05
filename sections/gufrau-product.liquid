@@ -193,6 +193,13 @@
     const mainImage = root.querySelector('#GufrauProductMainImage');
     const sizes = root.querySelectorAll('[data-gufrau-size]');
 
+    const setMainImage = (url) => {
+      if (!mainImage || !url) return;
+      mainImage.src = url;
+      mainImage.removeAttribute('srcset');
+      mainImage.removeAttribute('sizes');
+    };
+
     sizes.forEach((btn) => {
       btn.addEventListener('click', () => {
         if (btn.disabled) return;
@@ -206,14 +213,13 @@
         if (id && input) input.value = id;
         if (buy) buy.disabled = false;
         if (price && nextPrice) price.textContent = nextPrice;
-        if (mainImage && nextImage) mainImage.src = nextImage;
+        setMainImage(nextImage);
       });
     });
 
     root.querySelectorAll('[data-gufrau-thumb]').forEach((thumb) => {
       thumb.addEventListener('click', () => {
-        const url = thumb.getAttribute('data-image-url');
-        if (mainImage && url) mainImage.src = url;
+        setMainImage(thumb.getAttribute('data-image-url'));
         root.querySelectorAll('[data-gufrau-thumb]').forEach((t) => {
           t.classList.toggle('is-active', t === thumb);
         });
