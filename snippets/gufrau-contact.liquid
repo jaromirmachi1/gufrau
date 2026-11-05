@@ -39,6 +39,62 @@
       </div>
     </div>
 
+    {%- liquid
+      if shop.terms_of_service != blank
+        assign terms_url = shop.terms_of_service.url
+      elsif pages['terms-of-service'].url != blank
+        assign terms_url = pages['terms-of-service'].url
+      else
+        assign terms_url = '/pages/terms-of-service'
+      endif
+
+      if shop.shipping_policy != blank
+        assign shipping_url = shop.shipping_policy.url
+      elsif pages.shipping.url != blank
+        assign shipping_url = pages.shipping.url
+      elsif pages['shipping-policy'].url != blank
+        assign shipping_url = pages['shipping-policy'].url
+      else
+        assign shipping_url = '/pages/shipping'
+      endif
+
+      if shop.refund_policy != blank
+        assign refund_url = shop.refund_policy.url
+      elsif pages['refund-policy'].url != blank
+        assign refund_url = pages['refund-policy'].url
+      else
+        assign refund_url = '/pages/refund-policy'
+      endif
+
+      if shop.privacy_policy != blank
+        assign privacy_url = shop.privacy_policy.url
+      elsif pages['privacy-policy'].url != blank
+        assign privacy_url = pages['privacy-policy'].url
+      else
+        assign privacy_url = '/pages/privacy-policy'
+      endif
+    -%}
+
+    <div class="gufrau-contact__col gufrau-contact__col--legal">
+      <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="{{ legal_label | escape }}">
+        <h2 class="gufrau-contact__label">{{ legal_label | escape }}</h2>
+        <ul class="gufrau-contact__legal-list">
+          <li>
+            <a class="gufrau-contact__legal-link" href="{{ terms_url }}">Terms of service</a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{{ shipping_url }}">Shipping</a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{{ refund_url }}">Refund policy</a>
+          </li>
+          <li>
+            <a class="gufrau-contact__legal-link" href="{{ privacy_url }}">Privacy policy</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
     <div class="gufrau-contact__col gufrau-contact__col--aside">
       <div class="gufrau-contact__block gufrau-contact__block--seller">
         <h2 class="gufrau-contact__label">{{ seller_label | escape }}</h2>
@@ -67,60 +123,6 @@
           {%- endif -%}
         </div>
       </div>
-
-      {%- liquid
-        if shop.terms_of_service != blank
-          assign terms_url = shop.terms_of_service.url
-        elsif pages['terms-of-service'].url != blank
-          assign terms_url = pages['terms-of-service'].url
-        else
-          assign terms_url = '/pages/terms-of-service'
-        endif
-
-        if shop.shipping_policy != blank
-          assign shipping_url = shop.shipping_policy.url
-        elsif pages.shipping.url != blank
-          assign shipping_url = pages.shipping.url
-        elsif pages['shipping-policy'].url != blank
-          assign shipping_url = pages['shipping-policy'].url
-        else
-          assign shipping_url = '/pages/shipping'
-        endif
-
-        if shop.refund_policy != blank
-          assign refund_url = shop.refund_policy.url
-        elsif pages['refund-policy'].url != blank
-          assign refund_url = pages['refund-policy'].url
-        else
-          assign refund_url = '/pages/refund-policy'
-        endif
-
-        if shop.privacy_policy != blank
-          assign privacy_url = shop.privacy_policy.url
-        elsif pages['privacy-policy'].url != blank
-          assign privacy_url = pages['privacy-policy'].url
-        else
-          assign privacy_url = '/pages/privacy-policy'
-        endif
-      -%}
-
-      <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="{{ legal_label | escape }}">
-        <h2 class="gufrau-contact__label">{{ legal_label | escape }}</h2>
-        <ul class="gufrau-contact__legal-list">
-          <li>
-            <a class="gufrau-contact__legal-link" href="{{ terms_url }}">Terms of service</a>
-          </li>
-          <li>
-            <a class="gufrau-contact__legal-link" href="{{ shipping_url }}">Shipping</a>
-          </li>
-          <li>
-            <a class="gufrau-contact__legal-link" href="{{ refund_url }}">Refund policy</a>
-          </li>
-          <li>
-            <a class="gufrau-contact__legal-link" href="{{ privacy_url }}">Privacy policy</a>
-          </li>
-        </ul>
-      </nav>
     </div>
   </div>
 
@@ -228,8 +230,8 @@
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
     align-items: start;
     width: 100%;
     padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 26vh;
@@ -240,6 +242,11 @@
     flex-direction: column;
     gap: clamp(1.75rem, 4vh, 2.75rem);
     min-width: 0;
+  }
+
+  .gufrau-contact__col--legal {
+    justify-self: center;
+    width: min(100%, 22rem);
   }
 
   .gufrau-contact__col--aside {
@@ -362,6 +369,7 @@
       padding-bottom: 24vh;
     }
 
+    .gufrau-contact__col--legal,
     .gufrau-contact__col--aside {
       justify-self: start;
       width: 100%;

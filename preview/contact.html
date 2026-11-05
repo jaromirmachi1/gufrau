@@ -53,8 +53,8 @@
         position: relative;
         z-index: 2;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: clamp(2rem, 5vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3.5rem);
         align-items: start;
         width: 100%;
         padding: clamp(5rem, 14vh, 8rem) clamp(1.25rem, 5vw, 3.5rem) 26vh;
@@ -64,6 +64,10 @@
         flex-direction: column;
         gap: clamp(1.75rem, 4vh, 2.75rem);
         min-width: 0;
+      }
+      .gufrau-contact__col--legal {
+        justify-self: center;
+        width: min(100%, 22rem);
       }
       .gufrau-contact__col--aside {
         justify-self: end;
@@ -80,6 +84,7 @@
           gap: clamp(1.75rem, 4vh, 2.5rem);
           padding-bottom: 24vh;
         }
+        .gufrau-contact__col--legal,
         .gufrau-contact__col--aside {
           justify-self: start;
           width: 100%;
@@ -190,6 +195,17 @@
             <a class="gufrau-contact__email" href="mailto:websupport@gufrau.com">websupport@gufrau.com</a>
           </div>
         </div>
+        <div class="gufrau-contact__col gufrau-contact__col--legal">
+          <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="Legal">
+            <h2 class="gufrau-contact__label">Legal</h2>
+            <ul class="gufrau-contact__legal-list">
+              <li><a class="gufrau-contact__legal-link" href="#">Terms of service</a></li>
+              <li><a class="gufrau-contact__legal-link" href="#">Shipping</a></li>
+              <li><a class="gufrau-contact__legal-link" href="#">Refund policy</a></li>
+              <li><a class="gufrau-contact__legal-link" href="#">Privacy policy</a></li>
+            </ul>
+          </nav>
+        </div>
         <div class="gufrau-contact__col gufrau-contact__col--aside">
           <div class="gufrau-contact__block">
             <h2 class="gufrau-contact__label">Provozovatel e-shopu</h2>
@@ -201,15 +217,6 @@
               <p><a class="gufrau-contact__email" href="mailto:websupport@gufrau.com">websupport@gufrau.com</a></p>
             </div>
           </div>
-          <nav class="gufrau-contact__block gufrau-contact__legal" aria-label="Legal">
-            <h2 class="gufrau-contact__label">Legal</h2>
-            <ul class="gufrau-contact__legal-list">
-              <li><a class="gufrau-contact__legal-link" href="#">Terms of service</a></li>
-              <li><a class="gufrau-contact__legal-link" href="#">Shipping</a></li>
-              <li><a class="gufrau-contact__legal-link" href="#">Refund policy</a></li>
-              <li><a class="gufrau-contact__legal-link" href="#">Privacy policy</a></li>
-            </ul>
-          </nav>
         </div>
       </div>
       <div class="gufrau-contact__logo" aria-hidden="true">
